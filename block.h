@@ -9,7 +9,7 @@ class Block {
   std::shared_ptr<Board> board;
   int score;
   int timeStamp;
-	int x, y;
+	int r=3, c=0;
 	bool dropped;
 	int form;
   
@@ -17,6 +17,8 @@ class Block {
   	enum { form1=0, form2, form3, form4 };
   	Block( std::shared_ptr<Board> b, int s, int time );
   	~Block();
+    bool isDropped() const;
+    void setCoord( int m, int n );
     virtual void rotateCW()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;

@@ -13,7 +13,14 @@ bool Block::isValid( int x, int y ) {
 Block::Block( shared_ptr<Board> b, int s, int time ):
 	board{b}, score{s}, timeStamp{time} { }
 
-Block::~Block() { }
+Block::~Block() { board->addScore(score); }
+
+bool Block::isDropped() const { return dropped; }
+
+void Block::setCoord( int m, int n ) {
+	r = m;
+	c = n;
+}
 
 
 Block_I::Block_I( shared_ptr<Board> b, int s, int time ):
@@ -128,7 +135,9 @@ string Block_T::drawBlock() const { return "TTT\n T"; }
 
 
 Block_X::Block_X( shared_ptr<Board> b, int s, int time ):
-	Block(b, s, time) { }
+	Block(b, s, time) {
+	setCoord(3,5);
+}
 
 Block_X::~Block_X() { }
 
