@@ -9,7 +9,7 @@ class Block {
   std::shared_ptr<Board> board;
   int score;
   int timeStamp;
-	int cornerX, cornerY;
+	int x, y;
 	bool dropped;
 	int form;
   
@@ -17,7 +17,7 @@ class Block {
   	enum { form1=0, form2, form3, form4 };
   	Block( std::shared_ptr<Board> b, int s, int time );
   	~Block();
-//    virtual void moveRight( Block &b )=0;
+    virtual void rotateCW()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
 };
@@ -26,6 +26,7 @@ class Block_I: public Block {
   public:
   	Block_I( std::shared_ptr<Board> b, int s, int time );
   	~Block_I();
+    void rotateCW() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };

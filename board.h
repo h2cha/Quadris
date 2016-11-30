@@ -21,11 +21,11 @@ class Board {
   	Board( int l=0, int r=18, int c=11, int sc=0, int hisc=0 );
   	~Board();
     
-    void moveRight();
-    void moveLeft();
+//    void moveRight();
+//    void moveLeft();
     void rotateCW();
-    void rotateCC();
-    void drop();
+//    void rotateCC();
+//    void drop();
 
   	void attachView( const std::shared_ptr<View> v );
     void setBlock( int r, int c, const std::shared_ptr<Block> b );

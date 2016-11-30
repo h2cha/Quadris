@@ -21,11 +21,17 @@ Board::Board( int l, int r, int c, int sc, int hisc ):
 	}
 }
 
+void Board::rotateCW() { level->rotateCW(); }
+
 Board::~Board() { }
 
 int Board::getScore() const { return score; }
 
 int Board::getHiScore() const { return hiScore; }
+
+int Board::getRow() const { return row; }
+
+int Board::getCol() const { return col; }
 
 void Board::attachView( const shared_ptr<View> v ) {
 	for(auto &i : theBoard) {
@@ -37,6 +43,11 @@ void Board::setBlock( int r, int c, const std::shared_ptr<Block> b ) {
 	theBoard[r][c].setBlock(b);
 }
 
+void Board::isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 ) {
+	return ((theBoard[x1][y1] == nullptr) &&
+			(theBoard[x2][y2] == nullptr) &&
+			(theBoard[x3][y3] == nullptr) &&
+			(theBoard[x4][y4] == nullptr));
+}
 
-//test
 
