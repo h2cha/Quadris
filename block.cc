@@ -30,7 +30,7 @@ Block_I::~Block_I() { }
 
 void Block_I::moveRight(){
 	if (form == form1) {
-		if (board.isEmpty(x+1, y, x+2, y, x+2, y+1, x+2, y+2) && isValid(x+2, y+2)) {
+		if (board.isEmpty(x, y, x, y+1, x, y+2) && isValid(x+2, y+2)) {
 			board->setBlock(x+2, y, board->getCurrent());
 			board->setBlock(x+2, y+1, board->getCurrent());
 			board->setBlock(x+2, y+2, board->getCurrent());
@@ -124,7 +124,7 @@ void Block_I::rotateCC() {
 			form == form2;
 		} else return;
 	} else{
-		if (board.isEmpty(x, y, x-1, y, x-2, y, x-3, y) && isValid(x, y+3)){
+		if (board.isEmpty(x, y, x+1, y, x+2, y, x+3, y) && isValid(x, y+3)){
 			board->setBlock(x-1, y, board->getCurrent());
 			board->setBlock(x-2, y, board->getCurrent());
 			board->setBlock(x-3, y, board->getCurrent());
