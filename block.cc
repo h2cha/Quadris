@@ -707,7 +707,7 @@ Block_Z::~Block_Z() { }
 
 void Block_Z::moveRight(){
 	if (form == form1) {
-		if (board->isEmpty(x, y+1, x+1, y+1, x+1, y, x+2, y)  && isValid(x+3, y+1)) {
+		if (board->isEmpty(x+1, y+1, x+2, y+1, x+2, y, x+2, y)  && isValid(x+3, y+1)) {
 			board->setBlock(x+3, y+1, board->getCurrent());
 			board->setBlock(x+2, y, board->getCurrent());
 			board->setBlock(x, y, nullptr);
@@ -1009,6 +1009,7 @@ Block_X::~Block_X() {
 
 void Block_X::moveLeft(){}
 void Block_X::moveRight(){}
+void Block_X::moveDown(){}
 void Block_X::rotateCC(){}
 void Block_X::rotateCW(){}
 
