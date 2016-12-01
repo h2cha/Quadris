@@ -28,7 +28,7 @@ Board::~Board() { }
 
 
 // OPERATOR
-void Board::rotateCW() { level->rotateCW(); }
+void Board::rotateCW() { level->rotateCW(*current); }
 
 void Board::rotateCC() { level->rotateCC(); }
 
@@ -38,7 +38,10 @@ void Board::moveLeft() { level->moveLeft(); }
 
 void Board::moveDown() { level->moveDown(); }
 
-void Board::drop() { level->drop(); }
+void Board::drop() { 
+	level->drop();
+	blocks.emplace_back(current); 
+}
 
 
 
@@ -85,4 +88,25 @@ bool Board::isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int
 	return isEmpty(x1,y1) && isEmpty(x2,y2) && isEmpty(x3,y3) && isEmpty(x4,y4);
 }
 
+
+bool Board::isRowClear(int r) {
+	bool clear=true;
+	for(int i=0; i<col; ++i){
+		if(!isEmpty(r,i)){
+			clear = false;
+			break;
+		}
+	}
+	return clear;
+}
+bool Board::isAllClear() {
+	bool clear=true;
+	for(int i=0; i<row; ++i){
+		if(!isRowClear(i)){
+			clear=false;
+			break;
+		}
+	}
+	return clear;
+}
 
