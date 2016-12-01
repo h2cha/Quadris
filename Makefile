@@ -5,7 +5,7 @@ DEPENDS = ${OBJECTS:.o=.d}
 EXEC = quadris
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
 -include ${DEPENDS}
 
 .PHONY: clean

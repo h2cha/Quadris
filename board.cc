@@ -38,10 +38,10 @@ void Board::moveLeft() { level->moveLeft(*current); }
 
 void Board::moveDown() { level->moveDown(*current); }
 
-void Board::drop() { 
-	level->drop(*current);
-	blocks.emplace_back(current); 
-}
+//void Board::drop() { 
+//	level->drop(*current);
+//	blocks.emplace_back(current); 
+//}
 
 
 

@@ -12,7 +12,7 @@ Level::Level() { }
 Level::~Level() { }
 
 // non-random createBlock
-shared_ptr<Block> Level::createBlock( shared_ptr<Board> b, int s, int stamp, char t ) const {
+shared_ptr<Block> Level::createBlock( shared_ptr<Board> b, int s, int stamp, char t ) {
 	if (t == 'I') return make_shared<Block_I>(b, s, stamp);
 	if (t == 'J') return make_shared<Block_J>(b, s, stamp);
 	if (t == 'S') return make_shared<Block_S>(b, s, stamp);
@@ -24,17 +24,17 @@ shared_ptr<Block> Level::createBlock( shared_ptr<Board> b, int s, int stamp, cha
 	else return nullptr;
 }
 
-void Level::rotateCW() { b.rotateCW(); }
+void Level::rotateCW( Block &b ) const { b.rotateCW(); }
 
-void Level::rotateCC() { b.rotateCC(); }
+void Level::rotateCC( Block &b ) const { b.rotateCC(); }
 
-void Level::moveRight() { b.moveRight(); }
+void Level::moveRight( Block &b ) const { b.moveRight(); }
 
-void Level::moveLeft() { b.moveLeft(); }
+void Level::moveLeft( Block &b ) const { b.moveLeft(); }
 
-void Level::moveDown() { b.moveDwon(); }
+void Level::moveDown( Block &b ) const { b.moveDown(); }
 
-void Level::drop() { b.drop(); }
+//void Level::drop( Block &b ) const { b.drop(); }
 
 void Level::clear() { fallen = 0; }
 
@@ -44,7 +44,7 @@ LevelZero::LevelZero(): Level() { }
 
 LevelZero::~LevelZero() { }
 
-shared_ptr<Block> LevelZero::createBlock( shared_ptr<Board> b, int s, int stamp ) const { 
+shared_ptr<Block> LevelZero::createBlock( shared_ptr<Board> b, int s, int stamp ) { 
 	return nullptr;
 }
 
@@ -65,7 +65,7 @@ LevelOne::~LevelOne() { }
 
 
 // random createBlock
-shared_ptr<Block> LevelOne::createBlock( shared_ptr<Board> b, int s, int stamp ) const {
+shared_ptr<Block> LevelOne::createBlock( shared_ptr<Board> b, int s, int stamp ) {
 	srand(time(nullptr));
 	int num = rand() % 12;
 	if (num == 0) return make_shared<Block_S>(b, s, stamp);
@@ -91,7 +91,7 @@ LevelTwo::LevelTwo(): Level() { }
 LevelTwo::~LevelTwo() { }
 
 
-shared_ptr<Block> LevelTwo::createBlock( shared_ptr<Board> b, int s, int stamp ) const {
+shared_ptr<Block> LevelTwo::createBlock( shared_ptr<Board> b, int s, int stamp ) {
 	srand(time(nullptr));
 	int num = rand() % 7;
 	if (num == 0) return make_shared<Block_S>(b, s, stamp);
@@ -116,7 +116,7 @@ LevelThree::LevelThree(): Level() { }
 
 LevelThree::~LevelThree() { }
 
-shared_ptr<Block> LevelThree::createBlock( shared_ptr<Board> b, int s, int stamp ) const {
+shared_ptr<Block> LevelThree::createBlock( shared_ptr<Board> b, int s, int stamp ) {
 	srand(time(nullptr));
 	int num = rand() % 9;
 	if (num == 0 || num == 1) return make_shared<Block_S>(b, s, stamp);
@@ -129,27 +129,27 @@ shared_ptr<Block> LevelThree::createBlock( shared_ptr<Board> b, int s, int stamp
 	else return nullptr;
 }
 
-void LevelThree::rotateCW() const {
+void LevelThree::rotateCW( Block &b ) const {
 	b.rotateCW();
 	b.moveDown();
 }
 
-void LevelThree::rotateCC() const {
+void LevelThree::rotateCC( Block &b ) const {
 	b.rotateCC();
 	b.moveDown();	
 }
 
-void LevelThree::moveRight() const {
+void LevelThree::moveRight( Block &b ) const {
 	b.moveRight();
 	b.moveDown();
 }
 
-void LevelThree::moveLeft() const {
+void LevelThree::moveLeft( Block &b ) const {
 	b.moveLeft();
 	b.moveDown();
 }
 
-void LevelThree::moveDown() const {
+void LevelThree::moveDown( Block &b ) const {
 	b.moveDown();
 	b.moveDown();
 }
@@ -169,11 +169,11 @@ LevelFour::LevelFour(): Level() { }
 
 LevelFour::~LevelFour() { }
 
-shared_ptr<Block> LevelFour::createBlock( shared_ptr<Board> b, int s, int stamp ) const {
+shared_ptr<Block> LevelFour::createBlock( shared_ptr<Board> b, int s, int stamp ) {
 	// dropping 1x1 block
 	if (fallen == 5) {
-		auto x = make_share<Block_X>(b, s, stamp);
-		x.drop();
+		auto x = make_shared<Block_X>(b, s, stamp);
+//		x.drop();
 		clear();
 	}
 
@@ -189,36 +189,36 @@ shared_ptr<Block> LevelFour::createBlock( shared_ptr<Board> b, int s, int stamp 
 	else return nullptr;
 }
 
-void LevelFour::rotateCW() const {
+void LevelFour::rotateCW( Block &b ) const {
 	b.rotateCW();
 	b.moveDown();
 }
 
-void LevelFour::rotateCC() const {
+void LevelFour::rotateCC( Block &b ) const {
 	b.rotateCC();
 	b.moveDown();	
 }
 
-void LevelFour::moveRight() const {
+void LevelFour::moveRight( Block &b ) const {
 	b.moveRight();
 	b.moveDown();
 }
 
-void LevelFour::moveLeft() const {
+void LevelFour::moveLeft( Block &b ) const {
 	b.moveLeft();
 	b.moveDown();
 }
 
-void LevelFour::moveDown() const {
+void LevelFour::moveDown( Block &b ) const {
 	b.moveDown();
 	b.moveDown();
 }
-
-void LevelFour::drop() const {
+/*
+void LevelFour::drop( Block &b ) const {
 	b.drop();
 	++fallen;
 }
-
+*/
 int LevelFour::getScore() const { return 25; }
 
 int LevelFour::getLevel() const { return 4; }
