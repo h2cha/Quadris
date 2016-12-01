@@ -734,7 +734,7 @@ void Block_Z::moveLeft(){
 			board->setBlock(x+2, y+1, nullptr);
 		}
 	} else {
-		if (board->isEmpty(x+1, y+2, x+1, y+1, x+2, y+1, x+2, y) && isValid(x-1, y+1)){
+		if (board->isEmpty(x, y, x, y+1, x+1, y+1, x+1, y+2) && isValid(x-1, y+1)){
 			board->setBlock(x-1, y+1, board->getCurrent());
 			board->setBlock(x-1, y+2, board->getCurrent());
 			board->setBlock(x, y, board->getCurrent());
@@ -756,7 +756,7 @@ void Block_Z::moveDown(){
 			board->setBlock(x+2, y+1, nullptr);
 		}
 	} else {
-		if (board->isEmpty(x+1, y+2, x+1, y+1, x+2, y+1, x+2, y) && isValid(x+1, y-1)){
+		if (board->isEmpty(x, y, x, y+1, x+1, y+1, x+1, y+2) && isValid(x+1, y-1)){
 			board->setBlock(x, y, board->getCurrent());
 			board->setBlock(x+1, y-1, board->getCurrent());
 			board->setBlock(x, y+2, nullptr);
@@ -1008,7 +1008,6 @@ Block_X::~Block_X() {
 }
 
 void Block_X::moveLeft(){}
-void Block_X::moveRight(){}
 void Block_X::moveRight(){}
 void Block_X::rotateCC(){}
 void Block_X::rotateCW(){}
