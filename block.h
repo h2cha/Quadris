@@ -27,6 +27,7 @@ protected:
     virtual void moveDown()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
+    bool isValid(int x, int y);
 };
 
 class Block_I: public Block {
