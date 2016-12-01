@@ -80,7 +80,7 @@ int Board::getScore() const { return score; }
 
 int Board::getHiScore() const { return hiScore; }
 
-shared_ptr<Block> getCurrent() const { return current; }
+shared_ptr<Block> Board::getCurrent() const { return current; }
 
 bool Board::isEmpty( int x, int y ) const {
 	return theBoard[x][y].isEmpty();
