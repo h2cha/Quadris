@@ -14,12 +14,12 @@ class Level {
 
   	std::shared_ptr<Block> createBlock( std::shared_ptr<Board> b, int s, int stamp, char t ) const;
   	virtual std::shared_ptr<Block> createBlock( std::shared_ptr<Board> b, int s, int stamp ) const =0;
-    virtual void rotateCW( Block &b ) const;
-    virtual void rotateCC( Block &b ) const;
-    virtual void moveRight( Block &b ) const;
-    virtual void moveLeft( Block &b ) const;
-    virtual void moveDown( Block &b ) const;
-    virtual void drop( Block &b ) const;
+    virtual void rotateCW() const;
+    virtual void rotateCC() const;
+    virtual void moveRight() const;
+    virtual void moveLeft() const;
+    virtual void moveDown() const;
+    virtual void drop() const;
 
     virtual int getScore() const =0;
     virtual int getLevel() const =0;
@@ -68,12 +68,12 @@ class LevelThree: public Level {
 
     std::shared_ptr<Block> createBlock( std::shared_ptr<Board> b, int s, int stamp ) const override;
 
-    void rotateCW( Block &b ) const override;
-    void rotateCC( Block &b ) const override;
-    void moveRight( Block &b ) const override;
-    void moveLeft( Block &b ) const override;
-    void moveDown( Block &b ) const override;
-    void drop( Block &b ) const override;
+    void rotateCW() const override;
+    void rotateCC() const override;
+    void moveRight() const override;
+    void moveLeft() const override;
+    void moveDown() const override;
+    void drop() const override;
 
     int getScore() const override;
     int getLevel() const override;
@@ -86,12 +86,12 @@ class LevelFour: public Level {
 
     std::shared_ptr<Block> createBlock( std::shared_ptr<Board> b, int s, int stamp ) const override;
 
-    void rotateCW( Block &b ) const override;
-    void rotateCC( Block &b ) const override;
-    void moveRight( Block &b ) const override;
-    void moveLeft( Block &b ) const override;
-    void moveDown( Block &b ) const override;
-    void drop( Block &b ) const override;
+    void rotateCW() const override;
+    void rotateCC() const override;
+    void moveRight() const override;
+    void moveLeft() const override;
+    void moveDown() const override;
+    void drop() const override;
 
     int getScore() const override;
     int getLevel() const override;
