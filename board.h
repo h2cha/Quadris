@@ -21,21 +21,28 @@ class Board {
   	Board( int l=0, int r=18, int c=11, int sc=0, int hisc=0 );
   	~Board();
     
-//    void moveRight();
-//    void moveLeft();
+    // OPERATIONS
+    void moveRight();
+    void moveLeft();
     void rotateCW();
-//    void rotateCC();
-//    void drop();
+    void rotateCC();
+    void drop();
 
+
+    // MUTATOR
   	void attachView( const std::shared_ptr<View> v );
     void setBlock( int r, int c, const std::shared_ptr<Block> b );
-  	int getScore() const;
-  	int getHiScore() const;
-  	
+    void addScore( int n );
+    void setScore( int n );
+    void setHiScore( int n );
 
-
-
-
+    // ACCESSOR
+    int getRow() const;
+    int getCol() const;
+    int getScore() const;
+    int getHiScore() const;
+    bool isEmpty( int x, int y ) const;
+    bool isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 ) const;
 };
 #endif
 
