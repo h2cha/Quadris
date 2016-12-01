@@ -12,8 +12,6 @@ protected:
   int timeStamp;
 	int y=3, x=0;
 	bool dropped;
-      board->setBlock(x+3, y+1, this);
-      board->setBlock(x, y, nullptr);
 	int form;
   
   public:
