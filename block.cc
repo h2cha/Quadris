@@ -18,8 +18,8 @@ Block::~Block() { board->addScore(score); }
 bool Block::isDropped() const { return dropped; }
 
 void Block::setCoord( int m, int n ) {
-	r = m;
-	c = n;
+	y = m;
+	x = n;
 }
 
 
@@ -30,7 +30,7 @@ Block_I::~Block_I() { }
 
 void Block_I::moveRight(){
 	if (form == form1) {
-		if (board->isEmpty(x, y, x, y+1, x, y+2) && isValid(x+2, y+2)) {
+		if (board->isEmpty(x, y, x, y+1, x, y+2, x, y+3) && isValid(x+2, y+2)) {
 			board->setBlock(x+2, y, board->getCurrent());
 			board->setBlock(x+2, y+1, board->getCurrent());
 			board->setBlock(x+2, y+2, board->getCurrent());
@@ -39,7 +39,7 @@ void Block_I::moveRight(){
 			board->setBlock(x+1, y+2, nullptr);
 		}
 	} else{
-		if (board->isEmpty(x+1, y+1, x+2, y+1, x+3, y+1, x+3,y) && isValid(x+3, y)){
+		if (board->isEmpty(x+1, y+1, x+2, y+1, x+3, y+1, x+3, y) && isValid(x+3, y)){
 			board->setBlock(x+3, y, board->getCurrent());
 			board->setBlock(x+3, y+1, board->getCurrent());
 			board->setBlock(x, y+1, nullptr);
@@ -91,9 +91,9 @@ void Block_I::moveDown(){
 void Block_I::rotateCW() {
 	if (form == form1) {
 		if (board->isEmpty(x, y, x, y+1, x, y+2, x, y+3) && isValid(x, y-3)) {
-			board->setBlock(x, y-1, board->getCurrent());
-			board->setBlock(x, y-2, board->getCurrent());
-			board->setBlock(x, y-3, board->getCurrent());
+			board->setBlock(x, y+1, board->getCurrent());
+			board->setBlock(x, y+2, board->getCurrent());
+			board->setBlock(x, y+3, board->getCurrent());
 			board->setBlock(x+1, y, nullptr);
 			board->setBlock(x+2, y, nullptr);
 			board->setBlock(x+3, y, nullptr);
@@ -104,9 +104,9 @@ void Block_I::rotateCW() {
 			board->setBlock(x+1, y, board->getCurrent());
 			board->setBlock(x+2, y, board->getCurrent());
 			board->setBlock(x+3, y, board->getCurrent());
-			board->setBlock(x, y-1, nullptr);
-			board->setBlock(x, y-2, nullptr);
-			board->setBlock(x, y-3, nullptr);
+			board->setBlock(x, y+1, nullptr);
+			board->setBlock(x, y+2, nullptr);
+			board->setBlock(x, y+3, nullptr);
 			form = form1;
 		} else return;
 	}
@@ -121,17 +121,17 @@ void Block_I::rotateCC() {
 			board->setBlock(x+1, y, nullptr);
 			board->setBlock(x+2, y, nullptr);
 			board->setBlock(x+3, y, nullptr);
-			form == form2;
+			form = form2;
 		} else return;
 	} else{
 		if (board->isEmpty(x, y, x+1, y, x+2, y, x+3, y) && isValid(x, y+3)){
-			board->setBlock(x-1, y, board->getCurrent());
-			board->setBlock(x-2, y, board->getCurrent());
-			board->setBlock(x-3, y, board->getCurrent());
+			board->setBlock(x+1, y, board->getCurrent());
+			board->setBlock(x+2, y, board->getCurrent());
+			board->setBlock(x+3, y, board->getCurrent());
 			board->setBlock(x, y+1, nullptr);
 			board->setBlock(x, y+2, nullptr);
 			board->setBlock(x, y+3, nullptr);
-			form == form1;
+			form = form1;
 		}
 	}
 }
@@ -523,7 +523,7 @@ void Block_L::rotateCC() {
 	} else if (form == form2){
 		if (board->isEmpty(x, y, x+1, y, x, y+1, x, y+2) && isValid(x, y+2)) {
 			board->setBlock(x, y+2, board->getCurrent());
-			board->setBlock(x+1,, board->getCurrent());
+			board->setBlock(x+1, board->getCurrent());
 			board->setBlock(x+1, y+1, nullptr);
 			board->setBlock(x+2, y+1, nullptr);
 			form = form1;
@@ -621,7 +621,7 @@ void Block_Z::rotateCW() {
 			board->setBlock(x, y, board->getCurrent());
 			board->setBlock(x+1, y+2, board->getCurrent());
 			board->setBlock(x+1, y, nullptr);
-			board->setBlock(x++2, y, nullptr);
+			board->setBlock(x+2, y, nullptr);
 			form = form2;
 		} else return;
 	} else{
@@ -641,7 +641,7 @@ void Block_Z::rotateCC() {
 			board->setBlock(x, y, board->getCurrent());
 			board->setBlock(x+1, y+2, board->getCurrent());
 			board->setBlock(x+1, y, nullptr);
-			board->setBlock(x++2, y, nullptr);
+			board->setBlock(x+2, y, nullptr);
 			form = form2;
 		} else return;
 	} else{
