@@ -18,8 +18,6 @@ TextDisplay::TextDisplay( int l, int r, int c, int sc, int hisc ):
 TextDisplay::~TextDisplay() { }
 
 void TextDisplay::notify( const Cell &c ) {
-	cerr << "path6" << endl;
-	cerr << c.getRow() << c.getCol() << c.getType() << endl;
 	if (c.isEmpty()) board[c.getRow()][c.getCol()] = ' ';
 	else board[c.getRow()][c.getCol()] = c.getType();
 }
