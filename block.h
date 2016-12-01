@@ -6,11 +6,14 @@
 class Board;
 
 class Block {
+protected:
   std::shared_ptr<Board> board;
   int score;
   int timeStamp;
-	int r=3, c=0;
+	int y=3, x=0;
 	bool dropped;
+      board->setBlock(x+3, y+1, this);
+      board->setBlock(x, y, nullptr);
 	int form;
   
   public:
@@ -21,6 +24,9 @@ class Block {
     void setCoord( int m, int n );
     virtual void rotateCW()=0;
     virtual void rotateCC()=0;
+    virtual void moveLeft()=0;
+    virtual void moveRight()=0;
+    virtual void moveDown()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
 };
@@ -31,6 +37,9 @@ class Block_I: public Block {
   	~Block_I();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -44,6 +53,9 @@ class Block_J: public Block {
   	~Block_J();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -57,6 +69,9 @@ class Block_L: public Block {
   	~Block_L();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -71,6 +86,9 @@ class Block_O: public Block {
   	~Block_O();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -83,6 +101,9 @@ class Block_S: public Block {
   	~Block_S();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -96,6 +117,9 @@ class Block_Z: public Block {
   	~Block_Z();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -109,6 +133,9 @@ class Block_T: public Block {
   	~Block_T();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -122,6 +149,9 @@ class Block_X: public Block {
   	~Block_X();
     void rotateCW() override;
     void rotateCC() override;
+    void moveLeft() override;
+    void moveRight() override;
+    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
