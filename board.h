@@ -13,6 +13,7 @@ class Board {
 	int row, col;
 	int score, hiScore;
   std::vector<std::vector<Cell>> theBoard;
+  std::vector<std::shared_ptr<Block>> blocks;
   std::shared_ptr<Level> level;
 	std::shared_ptr<Block> Current;
 	std::shared_ptr<Block> theNext;
@@ -24,6 +25,7 @@ class Board {
     // OPERATIONS
     void moveRight();
     void moveLeft();
+    void moveDown();
     void rotateCW();
     void rotateCC();
     void drop();
@@ -41,8 +43,13 @@ class Board {
     int getCol() const;
     int getScore() const;
     int getHiScore() const;
+
+    // Checking functions
     bool isEmpty( int x, int y ) const;
     bool isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 ) const;
+    bool isRowClear(int r);
+    bool isAllClear();
+    bool checkifLost();
 };
 #endif
 
