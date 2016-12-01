@@ -16,7 +16,7 @@ class Block {
   public:
   	enum { form1=0, form2, form3, form4 };
   	Block( std::shared_ptr<Board> b, int s, int time );
-  	~Block();
+  	virtual ~Block();
     bool isDropped() const;
     void setCoord( int m, int n );
     virtual void rotateCW()=0;
