@@ -15,7 +15,7 @@ class Board {
   std::vector<std::vector<Cell>> theBoard;
   std::vector<std::shared_ptr<Block>> blocks;
   std::shared_ptr<Level> level;
-	std::shared_ptr<Block> Current;
+	std::shared_ptr<Block> current;
 	std::shared_ptr<Block> theNext;
 	
   public:
@@ -43,6 +43,7 @@ class Board {
     int getCol() const;
     int getScore() const;
     int getHiScore() const;
+    std::shared_ptr<Block> getCurrent() const;
 
     // Checking functions
     bool isEmpty( int x, int y ) const;

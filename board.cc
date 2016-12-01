@@ -30,16 +30,16 @@ Board::~Board() { }
 // OPERATOR
 void Board::rotateCW() { level->rotateCW(*current); }
 
-void Board::rotateCC() { level->rotateCC(); }
+void Board::rotateCC() { level->rotateCC(*current); }
 
-void Board::moveRight() { level->moveRight(); }
+void Board::moveRight() { level->moveRight(*current); }
 
-void Board::moveLeft() { level->moveLeft(); }
+void Board::moveLeft() { level->moveLeft(*current); }
 
-void Board::moveDown() { level->moveDown(); }
+void Board::moveDown() { level->moveDown(*current); }
 
 void Board::drop() { 
-	level->drop();
+	level->drop(*current);
 	blocks.emplace_back(current); 
 }
 
@@ -79,6 +79,8 @@ int Board::getCol() const { return col; }
 int Board::getScore() const { return score; }
 
 int Board::getHiScore() const { return hiScore; }
+
+shared_ptr<Block> getCurrent() const { return current; }
 
 bool Board::isEmpty( int x, int y ) const {
 	return theBoard[x][y].isEmpty();
