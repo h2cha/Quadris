@@ -10,30 +10,41 @@ class GraphicsDisplay;
 class Level;
 
 class Board {
-	int row, col;
+  int row, col;
 	int score, hiScore;
   std::vector<std::vector<Cell>> theBoard;
   std::vector<std::shared_ptr<Block>> blocks;
+  std::vector<std::shared_ptr<View>> views;
   std::shared_ptr<Level> level;
 	std::shared_ptr<Block> current;
 	std::shared_ptr<Block> theNext;
+
+  void drawCurrent( char type, std::shared_ptr<Block> b );
+  void setLevel( int l );
+  void popBlock();
+  void deleteARow( int r ); 
 	
   public:
   	Board( int l=0, int r=18, int c=11, int sc=0, int hisc=0 );
   	~Board();
     
     // OPERATIONS
+    void createBlock();
+    void createBlock( char type );
     void moveRight();
     void moveLeft();
     void moveDown();
     void rotateCW();
     void rotateCC();
-//    void drop();
-
+    void drop();
+    void levelUp();
+    void levelDown();
+    void deleteRows( int r );
 
     // MUTATOR
   	void attachView( const std::shared_ptr<View> v );
     void setBlock( int r, int c, const std::shared_ptr<Block> b );
+    void setBlock( int r1, int c1, int r2, int c2, int r3, int c3, int r4, int c4, const std::shared_ptr<Block> b );
     void addScore( int n );
     void setScore( int n );
     void setHiScore( int n );
@@ -48,9 +59,11 @@ class Board {
     // Checking functions
     bool isEmpty( int x, int y ) const;
     bool isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 ) const;
-    bool isRowClear(int r);
-    bool isAllClear();
+    bool isRowFilled(int r);
     bool checkifLost();
+
+    // notify
+    void notifyViews() const;
 };
 #endif
 

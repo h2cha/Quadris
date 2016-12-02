@@ -4,14 +4,12 @@
 #include "level.h"
 using namespace std;
 
+int minimumLevel = 0;
+int maximumLevel = 4;
 
 Board::Board( int l, int r, int c, int sc, int hisc ): 
 	row{r}, col{c}, score{sc}, hiScore{hisc} {
-	if (l == 0) level = make_shared<LevelZero>();
-	if (l == 1) level = make_shared<LevelOne>();
-	if (l == 2) level = make_shared<LevelTwo>();
-	if (l == 3) level = make_shared<LevelThree>();
-	if (l == 4) level = make_shared<LevelFour>();
+	setLevel(l);
 	for(int i=0; i < row; ++i) {
 		vector<Cell> v;
 		for(int j=0; j < col; ++j) {
@@ -23,49 +21,138 @@ Board::Board( int l, int r, int c, int sc, int hisc ):
 
 Board::~Board() { }
 
+// private methods
+
+void Board::drawCurrent( char type, shared_ptr<Block> b ) {
+	if (type == 'I') setBlock(3,0,3,1,3,2,3,3,current);
+	if (type == 'J') setBlock(1,1,2,1,3,1,3,0,current);
+	if (type == 'L') setBlock(1,0,2,0,3,0,3,1,current);
+	if (type == 'O') setBlock(2,0,2,1,3,0,3,1,current);
+	if (type == 'Z') setBlock(2,0,2,1,3,1,3,2,current);
+	if (type == 'S') setBlock(3,0,3,1,2,1,2,2,current);
+	if (type == 'T') setBlock(3,0,3,1,3,2,2,1,current);
+}
+
+void Board::setLevel( int l ) {
+	if (l == 0) level = make_shared<LevelZero>();
+	if (l == 1) level = make_shared<LevelOne>();
+	if (l == 2) level = make_shared<LevelTwo>();
+	if (l == 3) level = make_shared<LevelThree>();
+	if (l == 4) level = make_shared<LevelFour>();
+}
+
+void Board::popBlock() {
+	int size = blocks.size();
+	for(int i=0; i < size; ++i) {
+		if (blocks[i].use_count() == 1) {
+			addScore(blocks[i]->getScore());
+			blocks.erase(blocks.begin() +i);
+		}
+	}
+/*	
+	for(auto b : blocks) {
+		if (b.use_count() == 1) {
+			addScore(b->getScore());
+			blocks.erase(b);
+		}
+	}
+*/}
+
+void Board::deleteARow( int r ) {
+	for(int i=0; i < col; ++i) setBlock(r,i, nullptr);
+}
 
 
 
+// OPERATIONS
+void Board::createBlock() {
+	if (theNext) current = theNext;
+	else current = level->createBlock(*this, level->getScore(), 0);
+	drawCurrent(current->getType(), current);
+	theNext = level->createBlock(*this, level->getScore(), 0);
 
-// OPERATOR
-void Board::rotateCW() { level->rotateCW(*current); }
+}
 
-void Board::rotateCC() { level->rotateCC(*current); }
-
+void Board::createBlock( char type ) {
+	if (theNext) current = theNext;
+	else current = level->createBlock(*this, level->getScore(), 0, type);
+	drawCurrent(current->getType(), current);
+	theNext = level->createBlock(*this, level->getScore(), 0, type);
+}
 void Board::moveRight() { level->moveRight(*current); }
 
 void Board::moveLeft() { level->moveLeft(*current); }
 
 void Board::moveDown() { level->moveDown(*current); }
 
-//void Board::drop() { 
-//	level->drop(*current);
-//	blocks.emplace_back(current); 
-//}
+void Board::rotateCW() { level->rotateCW(*current); }
 
+void Board::rotateCC() { level->rotateCC(*current); }
+
+void Board::drop() { 
+	level->drop(*current);
+	blocks.emplace_back(current); 
+}
+
+void Board::levelUp() {
+	int nextLevel = level->getLevel() +1;
+	if (nextLevel <= maximumLevel) setLevel(nextLevel);
+}
+
+void Board::levelDown() {
+	int nextLevel = level->getLevel() -1;
+	if (nextLevel >= minimumLevel) setLevel(nextLevel);
+}
+
+void Board::deleteRows( int r ) {
+	int score = level->getScore();
+	for(int i=r; i < r+4; ++i) {
+		if (isRowFilled(i)) {
+			deleteARow(i);
+			++score;
+		}
+	}
+	addScore(score*score);
+	popBlock();
+}
 
 
 
 
 // MUTATOR
 void Board::attachView( const shared_ptr<View> v ) {
+	views.emplace_back(v);
 	for(auto &i : theBoard) {
 		for(auto &j : i) j.attach(v);
 	}
 }
 
-void Board::setBlock( int r, int c, const std::shared_ptr<Block> b ) {
+void Board::setBlock( int r, int c, const shared_ptr<Block> b ) {
 	theBoard[r][c].setBlock(b);
+}
+
+void Board::setBlock( int r1, int c1, int r2, int c2, int r3, int c3, int r4, int c4, const shared_ptr<Block> b ) {
+	theBoard[r1][c1].setBlock(b);
+	theBoard[r2][c2].setBlock(b);
+	theBoard[r3][c3].setBlock(b);
+	theBoard[r4][c4].setBlock(b);
 }
 
 void Board::addScore( int n ) { 
 	score += n;
 	if (score > hiScore) hiScore += n;
+	notifyViews();
 }
 
-void Board::setScore( int n ) { score = n; }
+void Board::setScore( int n ) { 
+	score = n; 
+	notifyViews();
+}
 
-void Board::setHiScore( int n ) { hiScore = n; }
+void Board::setHiScore( int n ) { 
+	hiScore = n;
+	notifyViews();
+}
 
 
 
@@ -91,24 +178,20 @@ bool Board::isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int
 }
 
 
-bool Board::isRowClear(int r) {
-	bool clear=true;
+bool Board::isRowFilled(int r) {
 	for(int i=0; i<col; ++i){
-		if(!isEmpty(r,i)){
-			clear = false;
-			break;
-		}
+		if(isEmpty(r,i)) return false;
 	}
-	return clear;
+	return true;
 }
-bool Board::isAllClear() {
-	bool clear=true;
-	for(int i=0; i<row; ++i){
-		if(!isRowClear(i)){
-			clear=false;
-			break;
-		}
+
+bool Board::checkifLost() {
+	for(auto c : theBoard[2]) {
+		if (!c.isEmpty()) return false;
 	}
-	return clear;
+	return true;
 }
+
+void Board::notifyViews() const { for(auto o : views) o->notify(*this); }
+
 

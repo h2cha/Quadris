@@ -12,7 +12,7 @@ Level::Level() { }
 Level::~Level() { }
 
 // non-random createBlock
-shared_ptr<Block> Level::createBlock( shared_ptr<Board> b, int s, int stamp, char t ) {
+shared_ptr<Block> Level::createBlock( Board &b, int s, int stamp, char t ) {
 	if (t == 'I') return make_shared<Block_I>(b, s, stamp);
 	if (t == 'J') return make_shared<Block_J>(b, s, stamp);
 	if (t == 'S') return make_shared<Block_S>(b, s, stamp);
@@ -34,7 +34,7 @@ void Level::moveLeft( Block &b ) const { b.moveLeft(); }
 
 void Level::moveDown( Block &b ) const { b.moveDown(); }
 
-//void Level::drop( Block &b ) const { b.drop(); }
+void Level::drop( Block &b ) const { b.drop(); }
 
 void Level::clear() { fallen = 0; }
 
@@ -44,7 +44,7 @@ LevelZero::LevelZero(): Level() { }
 
 LevelZero::~LevelZero() { }
 
-shared_ptr<Block> LevelZero::createBlock( shared_ptr<Board> b, int s, int stamp ) { 
+shared_ptr<Block> LevelZero::createBlock( Board &b, int s, int stamp ) { 
 	return nullptr;
 }
 
@@ -65,7 +65,7 @@ LevelOne::~LevelOne() { }
 
 
 // random createBlock
-shared_ptr<Block> LevelOne::createBlock( shared_ptr<Board> b, int s, int stamp ) {
+shared_ptr<Block> LevelOne::createBlock( Board &b, int s, int stamp ) {
 	srand(time(nullptr));
 	int num = rand() % 12;
 	if (num == 0) return make_shared<Block_S>(b, s, stamp);
@@ -91,7 +91,7 @@ LevelTwo::LevelTwo(): Level() { }
 LevelTwo::~LevelTwo() { }
 
 
-shared_ptr<Block> LevelTwo::createBlock( shared_ptr<Board> b, int s, int stamp ) {
+shared_ptr<Block> LevelTwo::createBlock( Board &b, int s, int stamp ) {
 	srand(time(nullptr));
 	int num = rand() % 7;
 	if (num == 0) return make_shared<Block_S>(b, s, stamp);
@@ -116,7 +116,7 @@ LevelThree::LevelThree(): Level() { }
 
 LevelThree::~LevelThree() { }
 
-shared_ptr<Block> LevelThree::createBlock( shared_ptr<Board> b, int s, int stamp ) {
+shared_ptr<Block> LevelThree::createBlock( Board &b, int s, int stamp ) {
 	srand(time(nullptr));
 	int num = rand() % 9;
 	if (num == 0 || num == 1) return make_shared<Block_S>(b, s, stamp);
@@ -169,11 +169,12 @@ LevelFour::LevelFour(): Level() { }
 
 LevelFour::~LevelFour() { }
 
-shared_ptr<Block> LevelFour::createBlock( shared_ptr<Board> b, int s, int stamp ) {
+shared_ptr<Block> LevelFour::createBlock( Board &b, int s, int stamp ) {
+	++fallen;
 	// dropping 1x1 block
 	if (fallen == 5) {
 		auto x = make_shared<Block_X>(b, s, stamp);
-//		x.drop();
+		x->drop();
 		clear();
 	}
 
@@ -213,12 +214,7 @@ void LevelFour::moveDown( Block &b ) const {
 	b.moveDown();
 	b.moveDown();
 }
-/*
-void LevelFour::drop( Block &b ) const {
-	b.drop();
-	++fallen;
-}
-*/
+
 int LevelFour::getScore() const { return 25; }
 
 int LevelFour::getLevel() const { return 4; }
