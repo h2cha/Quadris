@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void Block::getScore() { return score;}
+void Block::getScore() const { return score;}
 
 bool Block::isValid( int x, int y ) {
 	return (0 <= x && x <= board.getRow() 
@@ -17,12 +17,12 @@ Block::Block( Board& b, int s, int time ):
 
 Block::~Block() { board.addScore(score); }
 
-bool isEmpty(int n, int m){
+bool Block::isEmpty(int n, int m){
 	return (board.isValid(n, m) &&
 		board.isEmpty(n, m));
 }
 
-bool isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3){
+bool Block:;isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3){
 	return (board.isValid(n, m, n1, m1, n2, m2, n3, m3) &&
 		board.isEmpty(n, m, n1, m1, n2, m2, n3, m3));
 }
@@ -478,7 +478,7 @@ void Block_L::drop(){
 		drop_helper(x, y, x, y+1, x+1 , y+1, x+2, y+1);
 	}
 	else if (form == form3){
-		drop_helper(x, y+2, bx+1, y+2, x+1 , y+1, x+1, y);
+		drop_helper(x, y+2, x+1, y+2, x+1 , y+1, x+1, y);
 	}
 	else{
 		drop_helper(x, y, x+1, y, x+2 , y, x+2, y+1);
@@ -922,7 +922,7 @@ void Block_X::moveRight(){}
 
 void Block_X::moveLeft(){}
 
-void Block_X::moveDwon(){}
+void Block_X::moveDown(){}
 
 void Block_X::drop(){
 	drop_helper(x, y);
