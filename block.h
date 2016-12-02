@@ -7,7 +7,7 @@ class Board;
 
 class Block {
 protected:
-  std::shared_ptr<Board> board;
+  Board& board;
   int score;
   int timeStamp;
 	int y=3, x=0;
@@ -16,14 +16,22 @@ protected:
   
   public:
   	enum { form1=0, form2, form3, form4 };
-  	Block( std::shared_ptr<Board> b, int s, int time );
+  	Block( Board& board b, int s, int time );
   	virtual ~Block();
+    void getScore() const;
     bool isDropped() const;
+    bool isEmpty(int n, int m) const;
+    bool isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const;
     void setCoord( int m, int n );
-    void moveRight(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void moveLeft(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void moveDown(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void drop(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void moveRight_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void moveLeft_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void moveDown_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void drop_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void drop_helper(int n, int m);
+    virtual void moveRight()=0;
+    virtual void moveLeft()=0;
+    virtual void moveDown()=0;
+    virtual void drop()=0;
     virtual void rotateCW()=0;
     virtual void rotateCC()=0;
   	virtual char getType() const =0;
@@ -33,8 +41,12 @@ protected:
 
 class Block_I: public Block {
   public:
-  	Block_I( std::shared_ptr<Board> b, int s, int time );
+  	Block_I( Board& board b, int s, int time );
   	~Block_I();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -46,8 +58,12 @@ class Block_I: public Block {
 
 class Block_J: public Block {
   public:
-  	Block_J( std::shared_ptr<Board> b, int s, int time );
+  	Block_J( Board& board b, int s, int time );
   	~Block_J();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -59,8 +75,12 @@ class Block_J: public Block {
 
 class Block_L: public Block {
   public:
-  	Block_L( std::shared_ptr<Board> b, int s, int time );
+  	Block_L( Board& board b, int s, int time );
   	~Block_L();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -73,8 +93,12 @@ class Block_L: public Block {
 
 class Block_O: public Block {
   public:
-  	Block_O( std::shared_ptr<Board> b, int s, int time );
+  	Block_O( Board& board b, int s, int time );
   	~Block_O();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -85,8 +109,12 @@ class Block_O: public Block {
 
 class Block_S: public Block {
   public:
-  	Block_S( std::shared_ptr<Board> b, int s, int time );
+  	Block_S( Board& board b, int s, int time );
   	~Block_S();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -98,8 +126,12 @@ class Block_S: public Block {
 
 class Block_Z: public Block {
   public:
-  	Block_Z( std::shared_ptr<Board> b, int s, int time );
+  	Block_Z( Board& board b, int s, int time );
   	~Block_Z();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -111,8 +143,12 @@ class Block_Z: public Block {
 
 class Block_T: public Block {
   public:
-  	Block_T( std::shared_ptr<Board> b, int s, int time );
+  	Block_T( Board& board b, int s, int time );
   	~Block_T();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
@@ -124,8 +160,12 @@ class Block_T: public Block {
 
 class Block_X: public Block {
   public:
-  	Block_X( std::shared_ptr<Board> b, int s, int time );
+  	Block_X( Board& board b, int s, int time );
   	~Block_X();
+    void moveRight() override;
+    void moveLeft() override;
+    void moveDown() override;
+    void drop() override;
     void rotateCW() override;
     void rotateCC() override;
   	char getType() const override;
