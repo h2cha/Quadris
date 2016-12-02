@@ -18,12 +18,12 @@ Block::Block( Board& b, int s, int time ):
 Block::~Block() { board.addScore(score); }
 
 bool Block::isEmpty(int n, int m) const {
-	return (board.isValid(n, m) &&
+	return (isValid(n, m) &&
 		board.isEmpty(n, m));
 }
 
 bool Block::isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const {
-	return (board.isValid(n, m, n1, m1, n2, m2, n3, m3) &&
+	return (isValid(n, m, n1, m1, n2, m2, n3, m3) &&
 		board.isEmpty(n, m, n1, m1, n2, m2, n3, m3));
 }
 
