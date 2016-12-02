@@ -27,7 +27,7 @@ void Block::setCoord( int m, int n ) {
 	x = n;
 }
 
-void BlocK::moveRight(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3){
+void Block::moveRight(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3){
 	int x = n;
 	int y = m;
 	int x1 = n1;
@@ -55,7 +55,7 @@ void BlocK::moveRight(int n, int m, int n1, int m1, int n2, int m2, int n3, int 
 	}
 }
 
-void BlocK::moveRight(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3){
+void Block::moveLeft(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3){
 	int x = n;
 	int y = m;
 	int x1 = n1;

@@ -20,9 +20,10 @@ protected:
   	virtual ~Block();
     bool isDropped() const;
     void setCoord( int m, int n );
-    void moveRight(int &x, int &y, int &x1, int &y1, int &x2, int &y2, int &x3, int &y3);
-    void moveRight(int &x, int &y, int &x1, int &y1, int &x2, int &y2, int &x3, int &y3);
-    void moveRight(int &x, int &y, int &x1, int &y1, int &x2, int &y2, int &x3, int &y3);
+    void moveRight(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void moveLeft(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void moveDown(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
+    void drop(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
     virtual void rotateCW()=0;
     virtual void rotateCC()=0;
   	virtual char getType() const =0;
