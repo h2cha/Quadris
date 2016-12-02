@@ -11,7 +11,7 @@ bool Block::isValid( int n, int m ) const {
 		&& 0 <= m && m <= board.getCol());
 }
 
-bool Block::isValid( int n, int m ) const {
+bool Block::isValid(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const {
 	return (0 <= n && n <= board.getRow() 
 		&& 0 <= m && m <= board.getCol() &&
 		0 <= n1 && n1 <= board.getRow() 
