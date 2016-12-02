@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void Block::getScore() const { return score;}
+int Block::getScore() const { return score;}
 
 bool Block::isValid( int x, int y ) {
 	return (0 <= x && x <= board.getRow() 
