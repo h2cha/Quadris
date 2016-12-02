@@ -19,7 +19,7 @@ bool Block::isValid(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3
 		0 <= n2 && n2 <= board.getRow() 
 		&& 0 <= m2 && m2 <= board.getCol() &&
 		0 <= n3 && n3 <= board.getRow() 
-		&& 0 <= m3 && m3 <= board.getCol())
+		&& 0 <= m3 && m3 <= board.getCol());
 }
 
 
