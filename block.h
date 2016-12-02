@@ -18,7 +18,7 @@ protected:
   	enum { form1=0, form2, form3, form4 };
   	Block( Board& b, int s, int time );
   	virtual ~Block();
-    void getScore() const;
+    int getScore() const;
     bool isDropped() const;
     bool isEmpty(int n, int m) const;
     bool isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const;
