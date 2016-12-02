@@ -10,7 +10,7 @@ protected:
   Board& board;
   int score;
   int timeStamp;
-	int y=3, x=0;
+	int row=3, col=0;
 	bool dropped;
 	int form;
   
@@ -20,14 +20,14 @@ protected:
   	virtual ~Block();
     int getScore() const;
     bool isDropped() const;
-    bool isEmpty(int n, int m) const;
-    bool isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const;
-    void setCoord( int m, int n );
-    void moveRight_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void moveLeft_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void moveDown_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void drop_helper(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3);
-    void drop_helper(int n, int m);
+//    bool isEmpty(int n, int m) const;
+//    bool isEmpty(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const;
+    void setCoord( int r, int c );
+    void moveRight_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
+    void moveLeft_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
+    void moveDown_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
+    void drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3, int i);
+    void drop_helper(int r, int c, int i);
     virtual void moveRight()=0;
     virtual void moveLeft()=0;
     virtual void moveDown()=0;
@@ -36,8 +36,8 @@ protected:
     virtual void rotateCC()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
-    bool isValid(int n, int m) const;
-    bool isValid(int n, int m, int n1, int m1, int n2, int m2, int n3, int m3) const;
+    bool isValid(int r, int c) const;
+    bool canOccupy(int r, int c, int r1, int c1, int r2=-1, int c2=-1, int r3=-1, int c3=-1) const;
 };
 
 class Block_I: public Block {

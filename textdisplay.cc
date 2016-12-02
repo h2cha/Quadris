@@ -27,6 +27,7 @@ void TextDisplay::notify( const Block &b ) {
 }
 
 void TextDisplay::notify( const Board &b ) {
+	level = b.getLevel();
 	score = b.getScore();
 	hiScore = b.getHiScore();
 }

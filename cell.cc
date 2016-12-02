@@ -1,7 +1,6 @@
 #include "cell.h"
 using namespace std;
 
-
 Cell::Cell( int r, int c ): row{r}, col{c} { }
 
 Cell::~Cell() { }
@@ -28,4 +27,5 @@ void Cell::attach( const shared_ptr<View> disp ) {
 void Cell::notifyViews() const { 
 	for(auto o : displays) o->notify(*this); }
 
-bool Cell::isEmpty() const { return block==nullptr? true : false; }
+bool Cell::isEmpty() const { return block==nullptr; }
+

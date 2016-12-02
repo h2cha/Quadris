@@ -34,7 +34,8 @@ void Level::moveLeft( Block &b ) const { b.moveLeft(); }
 
 void Level::moveDown( Block &b ) const { b.moveDown(); }
 
-void Level::drop( Block &b ) const { b.drop(); }
+void Level::drop( Block &b ) const { 
+	b.drop(); }
 
 void Level::clear() { fallen = 0; }
 

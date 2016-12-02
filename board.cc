@@ -4,12 +4,12 @@
 #include "level.h"
 using namespace std;
 
+
 int minimumLevel = 0;
 int maximumLevel = 4;
 
-Board::Board( int l, int r, int c, int sc, int hisc ): 
+Board::Board( int r, int c, int sc, int hisc ): 
 	row{r}, col{c}, score{sc}, hiScore{hisc} {
-	setLevel(l);
 	for(int i=0; i < row; ++i) {
 		vector<Cell> v;
 		for(int j=0; j < col; ++j) {
@@ -39,6 +39,7 @@ void Board::setLevel( int l ) {
 	if (l == 2) level = make_shared<LevelTwo>();
 	if (l == 3) level = make_shared<LevelThree>();
 	if (l == 4) level = make_shared<LevelFour>();
+	notifyViews();
 }
 
 void Board::popBlock() {
@@ -69,8 +70,12 @@ void Board::createBlock() {
 	if (theNext) current = theNext;
 	else current = level->createBlock(*this, level->getScore(), 0);
 	drawCurrent(current->getType(), current);
-	theNext = level->createBlock(*this, level->getScore(), 0);
+	createNext();
+}
 
+void Board::createNext() {
+	theNext = level->createBlock(*this, level->getScore(), 0);
+	notifyViews(*theNext);
 }
 
 void Board::createBlock( char type ) {
@@ -78,7 +83,10 @@ void Board::createBlock( char type ) {
 	else current = level->createBlock(*this, level->getScore(), 0, type);
 	drawCurrent(current->getType(), current);
 	theNext = level->createBlock(*this, level->getScore(), 0, type);
+	notifyViews(*theNext);
 }
+
+
 void Board::moveRight() { level->moveRight(*current); }
 
 void Board::moveLeft() { level->moveLeft(*current); }
@@ -128,14 +136,15 @@ void Board::attachView( const shared_ptr<View> v ) {
 }
 
 void Board::setBlock( int r, int c, const shared_ptr<Block> b ) {
+	if (r == -1 && c == -1) return ;
 	theBoard[r][c].setBlock(b);
 }
 
 void Board::setBlock( int r1, int c1, int r2, int c2, int r3, int c3, int r4, int c4, const shared_ptr<Block> b ) {
-	theBoard[r1][c1].setBlock(b);
-	theBoard[r2][c2].setBlock(b);
-	theBoard[r3][c3].setBlock(b);
-	theBoard[r4][c4].setBlock(b);
+	setBlock(r1,c1,b);
+	setBlock(r2,c2,b);
+	setBlock(r3,c3,b);
+	setBlock(r4,c4,b);
 }
 
 void Board::addScore( int n ) { 
@@ -159,6 +168,8 @@ void Board::setHiScore( int n ) {
 
 
 // ACCESSOR
+int Board::getLevel() const { return level->getLevel(); }
+
 int Board::getRow() const { return row; }
 
 int Board::getCol() const { return col; }
@@ -169,12 +180,13 @@ int Board::getHiScore() const { return hiScore; }
 
 shared_ptr<Block> Board::getCurrent() const { return current; }
 
-bool Board::isEmpty( int x, int y ) const {
-	return theBoard[x][y].isEmpty();
+bool Board::isEmpty( int r, int c ) const {
+	if (r == -1 && c == -1) return true;
+	else return theBoard[r][c].isEmpty();
 }
 
-bool Board::isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 ) const {
-	return isEmpty(x1,y1) && isEmpty(x2,y2) && isEmpty(x3,y3) && isEmpty(x4,y4);
+bool Board::isEmpty( int r1, int c1, int r2, int c2, int r3, int c3, int r4, int c4 ) const {
+	return isEmpty(r1,c1) && isEmpty(r2,c2) && isEmpty(r3,c3) && isEmpty(r4,c4);
 }
 
 
@@ -193,5 +205,8 @@ bool Board::checkifLost() {
 }
 
 void Board::notifyViews() const { for(auto o : views) o->notify(*this); }
+
+void Board::notifyViews( const Block &b ) const { for(auto o : views) o->notify(b); }
+
 
 

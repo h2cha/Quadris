@@ -20,16 +20,16 @@ class Board {
 	std::shared_ptr<Block> theNext;
 
   void drawCurrent( char type, std::shared_ptr<Block> b );
-  void setLevel( int l );
   void popBlock();
   void deleteARow( int r ); 
 	
   public:
-  	Board( int l=0, int r=18, int c=11, int sc=0, int hisc=0 );
+  	Board( int r=18, int c=11, int sc=0, int hisc=0 );
   	~Board();
     
     // OPERATIONS
     void createBlock();
+    void createNext();
     void createBlock( char type );
     void moveRight();
     void moveLeft();
@@ -37,6 +37,7 @@ class Board {
     void rotateCW();
     void rotateCC();
     void drop();
+    void setLevel( int l );
     void levelUp();
     void levelDown();
     void deleteRows( int r );
@@ -50,6 +51,7 @@ class Board {
     void setHiScore( int n );
 
     // ACCESSOR
+    int getLevel() const;
     int getRow() const;
     int getCol() const;
     int getScore() const;
@@ -58,12 +60,13 @@ class Board {
 
     // Checking functions
     bool isEmpty( int x, int y ) const;
-    bool isEmpty( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 ) const;
+    bool isEmpty( int x1, int y1, int x2, int y2, int x3=-1, int y3=-1, int x4=-1, int y4=-1 ) const;
     bool isRowFilled(int r);
     bool checkifLost();
 
     // notify
     void notifyViews() const;
+    void notifyViews( const Block &b ) const;
 };
 #endif
 

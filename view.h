@@ -12,6 +12,7 @@ class View {
 	virtual void notify( const Cell &c )=0;
 	virtual void notify( const Block &b )=0;
 	virtual void notify( const Board &b )=0;
+
 };
 
 #endif

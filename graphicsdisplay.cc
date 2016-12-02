@@ -8,10 +8,20 @@ using namespace std;
 
 GraphicsDisplay::GraphicsDisplay( Xwindow &x, int r, int c ):
 	window{x}, row{r}, col{c} {
-	window.fillRectangle(0, 0, 10, row *50 +20, Xwindow::Black);
-	window.fillRectangle(col *50 +10, 0, 10, row *50 +20, Xwindow::Black);
-	window.fillRectangle(0, 0, col *50 +20, 10, Xwindow::Black);
-	window.fillRectangle(0, row *50 +10, col *5 +20, 10, Xwindow::Black);
+
+	int yorigin=6, xorigin=100, dimension=27;
+
+	int width=1;
+	window.fillRectangle(xorigin, yorigin, dimension*11+width, dimension*18+width, Xwindow::Black);
+  	for(int i=0; i<=col; i++){
+    	int r = i*dimension + xorigin;
+    	window.fillRectangle(r, yorigin, width, dimension*18, Xwindow::White);
+  	}
+  	for(int i=0; i<=row; i++){
+    	int c = i*dimension + yorigin;
+    	window.fillRectangle(xorigin, c, dimension*11+width, width, Xwindow::White);
+  	}
+  	window.fillRectangle(xorigin, 3*dimension + yorigin-0.5 , dimension*11+width, 2, Xwindow::White);
 }
 
 GraphicsDisplay::~GraphicsDisplay() { }

@@ -1,6 +1,7 @@
 #ifndef _GRAPHICSDISPLAY_H_
 #define _GRAPHICSDISPLAY_H_
 #include "view.h"
+#include "window.h"
 
 class Cell;
 class Block;
