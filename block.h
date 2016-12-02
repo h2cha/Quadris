@@ -20,11 +20,11 @@ protected:
   	virtual ~Block();
     bool isDropped() const;
     void setCoord( int m, int n );
+    void moveRight(int &x, int &y, int &x1, int &y1, int &x2, int &y2, int &x3, int &y3);
+    void moveRight(int &x, int &y, int &x1, int &y1, int &x2, int &y2, int &x3, int &y3);
+    void moveRight(int &x, int &y, int &x1, int &y1, int &x2, int &y2, int &x3, int &y3);
     virtual void rotateCW()=0;
     virtual void rotateCC()=0;
-    virtual void moveLeft()=0;
-    virtual void moveRight()=0;
-    virtual void moveDown()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
     bool isValid(int x, int y);
@@ -36,9 +36,6 @@ class Block_I: public Block {
   	~Block_I();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -52,9 +49,6 @@ class Block_J: public Block {
   	~Block_J();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -68,9 +62,6 @@ class Block_L: public Block {
   	~Block_L();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -85,9 +76,6 @@ class Block_O: public Block {
   	~Block_O();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -100,9 +88,6 @@ class Block_S: public Block {
   	~Block_S();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -116,9 +101,6 @@ class Block_Z: public Block {
   	~Block_Z();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -132,9 +114,6 @@ class Block_T: public Block {
   	~Block_T();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
@@ -148,9 +127,6 @@ class Block_X: public Block {
   	~Block_X();
     void rotateCW() override;
     void rotateCC() override;
-    void moveLeft() override;
-    void moveRight() override;
-    void moveDown() override;
   	char getType() const override;
   	std::string drawBlock() const override;
 };
