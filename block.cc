@@ -6,11 +6,10 @@ using namespace std;
 
 int Block::getScore() const { return score;}
 
-bool Block::isValid( int x, int y ) {
+bool Block::isValid( int x, int y ) const {
 	return (0 <= x && x <= board.getRow() 
 		&& 0 <= y && y <= board.getCol());
 }
-
 
 Block::Block( Board& b, int s, int time ):
 	board{b}, score{s}, timeStamp{time} { }

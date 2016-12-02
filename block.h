@@ -36,7 +36,7 @@ protected:
     virtual void rotateCC()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
-    bool isValid(int x, int y);
+    bool isValid(int x, int y) const;
 };
 
 class Block_I: public Block {
