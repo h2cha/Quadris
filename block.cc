@@ -12,7 +12,7 @@ bool Block::isValid( int x, int y ) {
 }
 
 
-Block::Block( Board& board b, int s, int time ):
+Block::Block( Board& b, int s, int time ):
 	board{b}, score{s}, timeStamp{time} { }
 
 Block::~Block() { board.addScore(score); }
@@ -172,7 +172,7 @@ void Block::drop_helper(int n, int m){
 
 
 
-Block_I::Block_I( Board& board b, int s, int time ):
+Block_I::Block_I( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_I::~Block_I() { }
@@ -266,7 +266,7 @@ string Block_I::drawBlock() const { return "IIII"; }
 
 
 
-Block_J::Block_J( Board& board b, int s, int time ):
+Block_J::Block_J( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_J::~Block_J() { }
@@ -420,7 +420,7 @@ string Block_J::drawBlock() const { return "J\nJJJ"; }
 
 
 
-Block_L::Block_L( Board& board b, int s, int time ):
+Block_L::Block_L( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_L::~Block_L() { }
@@ -572,7 +572,7 @@ string Block_L::drawBlock() const { return "  L\nLLL"; }
 
 
 
-Block_O::Block_O( Board& board b, int s, int time ):
+Block_O::Block_O( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_O::~Block_O() { }
@@ -604,7 +604,7 @@ string Block_O::drawBlock() const { return "OO\nOO"; }
 
 
 
-Block_S::Block_S( Board& board b, int s, int time ):
+Block_S::Block_S( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_S::~Block_S() { }
@@ -688,7 +688,7 @@ string Block_S::drawBlock() const { return " SS\nSS"; }
 
 
 
-Block_Z::Block_Z( Board& board b, int s, int time ):
+Block_Z::Block_Z( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_Z::~Block_Z() { }
@@ -772,7 +772,7 @@ string Block_Z::drawBlock() const { return "ZZ\n ZZ"; }
 
 
 
-Block_T::Block_T( Board& board b, int s, int time ):
+Block_T::Block_T( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_T::~Block_T() { }
@@ -911,7 +911,7 @@ string Block_T::drawBlock() const { return "TTT\n T"; }
 
 
 
-Block_X::Block_X( Board& board b, int s, int time ):
+Block_X::Block_X( Board& b, int s, int time ):
 	Block(b, s, time) {
 	setCoord(3,5);
 }
