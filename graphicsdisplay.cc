@@ -9,19 +9,19 @@ using namespace std;
 GraphicsDisplay::GraphicsDisplay( Xwindow &x, int r, int c ):
 	window{x}, row{r}, col{c} {
 
-	int yorigin=6, xorigin=100, dimension=27;
+	int Rorig=6, Corig=100, dim=27;
 
 	int width=1;
-	window.fillRectangle(xorigin, yorigin, dimension*11+width, dimension*18+width, Xwindow::Black);
+	window.fillRectangle(Corig, Rorig, dim*11+width, dim*18+width, Xwindow::Magenta);
   	for(int i=0; i<=col; i++){
-    	int r = i*dimension + xorigin;
-    	window.fillRectangle(r, yorigin, width, dimension*18, Xwindow::White);
+    	int r = i*dim + Corig;
+    	window.fillRectangle(r, Rorig, width, dim*18, Xwindow::White);
   	}
   	for(int i=0; i<=row; i++){
-    	int c = i*dimension + yorigin;
-    	window.fillRectangle(xorigin, c, dimension*11+width, width, Xwindow::White);
+    	int c = i*dim + Rorig;
+    	window.fillRectangle(Corig, c, dim*11+width, width, Xwindow::White);
   	}
-  	window.fillRectangle(xorigin, 3*dimension + yorigin-0.5 , dimension*11+width, 2, Xwindow::White);
+  	//window.fillRectangle(Corig, 3*dim + Rorig-0.5 , dim*11+width, 2, Xwindow::White);
 
     window.drawString(5,20,"Level:");
     window.drawString(5,35,"Score:");
@@ -33,10 +33,35 @@ GraphicsDisplay::GraphicsDisplay( Xwindow &x, int r, int c ):
 
 GraphicsDisplay::~GraphicsDisplay() { }
 
+void GraphicsDisplay::clearNext() {
+  window.fillRectangle(405,40,80,40,Xwindow::White);
+}
+
 void GraphicsDisplay::notify( const Cell &c ) {
+  int i = c.getRow();
+  int j = c.getCol();
+  if (c.getType() == 'I') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Cyan);
+  if (c.getType() == 'J') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Blue);
+  if (c.getType() == 'L') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Orange);
+  if (c.getType() == 'O') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Yellow);
+  if (c.getType() == 'S') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Green);
+  if (c.getType() == 'Z') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Red);
+  if (c.getType() == 'T') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Brown);
+  if (c.getType() == 'X') 
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Black);
+  if (c.getType() == ' ')
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Magenta);
 }
 
 void GraphicsDisplay::notify( const Block &b ) {
+  clearNext();
   b.drawBlock(window);
 }
 

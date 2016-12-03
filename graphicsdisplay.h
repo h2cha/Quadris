@@ -11,6 +11,7 @@ class Board;
 class GraphicsDisplay: public View {
 	Xwindow &window;
 	const int row, col;
+	int Corig=100, Rorig=6, dim=27;
 	std::string level, score, hiScore;
 
   public:
@@ -20,6 +21,7 @@ class GraphicsDisplay: public View {
   	void notify( const Cell &c ) override;
   	void notify( const Block &c ) override;
   	void notify( const Board &c ) override;
+  	void clearNext();
 
 };
 

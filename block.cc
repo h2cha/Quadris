@@ -150,7 +150,7 @@ char Block_I::getType() const { return 'I'; }
 string Block_I::drawBlock() const { return "IIII"; }
 
 void Block_I::drawBlock(Xwindow &x) const {
-	for(int i=0; i < 4; ++i) x.fillRectangle(405+i*20,40, 19,19,Xwindow::Blue);
+	for(int i=0; i < 4; ++i) x.fillRectangle(405+i*20,40, 19,19,Xwindow::Cyan);
 }
 
 
@@ -408,8 +408,8 @@ char Block_L::getType() const { return 'L'; }
 string Block_L::drawBlock() const { return "  L\nLLL"; }
 
 void Block_L::drawBlock(Xwindow &x) const {
-	x.fillRectangle(445,40,19,19,Xwindow::Blue);
-	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+	x.fillRectangle(445,40,19,19,Xwindow::Orange);
+	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Orange);
 }
 
 
@@ -450,8 +450,8 @@ char Block_O::getType() const { return 'O'; }
 string Block_O::drawBlock() const { return "OO\nOO"; }
 
 void Block_O::drawBlock(Xwindow &x) const {
-	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Blue);
-	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Yellow);
+	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Yellow);
 }
 
 
@@ -519,8 +519,8 @@ char Block_S::getType() const { return 'S'; }
 string Block_S::drawBlock() const { return " SS\nSS"; }
 
 void Block_S::drawBlock(Xwindow &x) const {
-	for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,40,19,19,Xwindow::Blue);
-        for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+	for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,40,19,19,Xwindow::Green);
+    for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Green);
 }
 
 
@@ -587,8 +587,8 @@ char Block_Z::getType() const { return 'Z'; }
 string Block_Z::drawBlock() const { return "ZZ\n ZZ"; }
 
 void Block_Z::drawBlock(Xwindow &x) const {
-	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Blue);
-        for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,60,19,19,Xwindow::Blue);
+	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Red);
+        for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,60,19,19,Xwindow::Red);
 }
 
 
@@ -717,8 +717,8 @@ string Block_T::drawBlock() const { return "TTT\n T"; }
 
 
 void Block_T::drawBlock(Xwindow &x) const {
-	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Blue);
-	x.fillRectangle(425,60,19,19,Xwindow::Blue);
+	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Brown);
+	x.fillRectangle(425,60,19,19,Xwindow::Brown);
 }
 
 
