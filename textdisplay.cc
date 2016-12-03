@@ -37,14 +37,14 @@ ostream &operator<<( ostream &out, const TextDisplay &td ) {
 	out << "Level:" << setw(13) << td.level << endl;
 	out << "Score:" << setw(13) << td.score << endl;
 	out << "Hi Score:" << setw(10) << td.hiScore << endl;
-	out << "-----------" << endl;
+	out << "01234567890" << endl;
 	for(int r=0; r < td.row; ++r) {
 		for(int c=0; c < td.col; ++c) {
 			out << td.board[r][c];
 		}
 		out << endl;
 	}
-	out << "-----------" << endl;
+	out << "01234567890" << endl;
 	out << "Next:" << endl;
 	out << td.next << endl;
 
