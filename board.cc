@@ -78,11 +78,11 @@ void Board::createNext() {
 	notifyViews(*theNext);
 }
 
-void Board::createBlock( char type ) {
+void Board::createBlock( char type, char type2 ) {
 	if (theNext) current = theNext;
 	else current = level->createBlock(*this, level->getScore(), 0, type);
 	drawCurrent(current->getType(), current);
-	theNext = level->createBlock(*this, level->getScore(), 0, type);
+	theNext = level->createBlock(*this, level->getScore(), 0, type2);
 	notifyViews(*theNext);
 }
 

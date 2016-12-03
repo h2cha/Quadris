@@ -31,7 +31,7 @@ class Board {
     // OPERATIONS
     void createBlock();
     void createNext();
-    void createBlock( char type );
+    void createBlock( char type, char type2 );
     void replaceCurrent( char type ); 
     void moveRight();
     void moveLeft();
