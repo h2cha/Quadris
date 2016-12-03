@@ -32,6 +32,7 @@ class Board {
     void createBlock();
     void createNext();
     void createBlock( char type );
+    void replaceCurrent( char type ); 
     void moveRight();
     void moveLeft();
     void moveDown();

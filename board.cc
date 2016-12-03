@@ -86,6 +86,12 @@ void Board::createBlock( char type ) {
 	notifyViews(*theNext);
 }
 
+void Board::replaceCurrent( char type ) {
+	setBlock(2,0,2,1,2,2,2,3, nullptr);
+	setBlock(3,0,3,1,3,2,3,3, nullptr);
+	current = level->createBlock(*this, level->getScore(), 0, type);
+	drawCurrent(current->getType(), current);
+}
 
 void Board::moveRight() { level->moveRight(*current); }
 
