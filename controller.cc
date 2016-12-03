@@ -11,8 +11,8 @@ Controller::Controller()
   td = make_shared<TextDisplay>();
   board->attachView(td);
   
-  Xwindow x;
-  gd = make_shared<GraphicsDisplay>(x);
+  auto x = make_shared<Xwindow>();
+  gd = make_shared<GraphicsDisplay>(*x);
   board->attachView(gd);
 
   board->setLevel(2);
