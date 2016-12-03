@@ -24,7 +24,7 @@ bool Block::canOccupy(int r, int c, int r1, int c1, int r2, int c2, int r3, int 
 Block::Block( Board& b, int s, int time ):
 	board{b}, score{s}, timeStamp{time} { }
 
-Block::~Block() { board.addScore(score); }
+Block::~Block() { }
 /*
 bool Block::isEmpty(int row, int col) const {
 	return (isValid(row, col) && board.isEmpty(row, col));
