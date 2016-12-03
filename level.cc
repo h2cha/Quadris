@@ -1,6 +1,5 @@
 #include <memory>
 #include <cstdlib>
-#include <time.h>
 #include "level.h"
 #include "block.h"
 #include "board.h"
@@ -37,6 +36,8 @@ void Level::moveDown( Block &b ) const { b.moveDown(); }
 void Level::drop( Block &b ) const { 
 	b.drop(); }
 
+void Level::setSeed( int s ) { seed = s; }
+
 void Level::clear() { fallen = 0; }
 
 
@@ -67,7 +68,7 @@ LevelOne::~LevelOne() { }
 
 // random createBlock
 shared_ptr<Block> LevelOne::createBlock( Board &b, int s, int stamp ) {
-	srand(time(nullptr));
+	srand(seed);
 	int num = rand() % 12;
 	if (num == 0) return make_shared<Block_S>(b, s, stamp);
 	if (num == 1) return make_shared<Block_Z>(b, s, stamp);
@@ -93,7 +94,7 @@ LevelTwo::~LevelTwo() { }
 
 
 shared_ptr<Block> LevelTwo::createBlock( Board &b, int s, int stamp ) {
-	srand(time(nullptr));
+	srand(seed);
 	int num = rand() % 7;
 	if (num == 0) return make_shared<Block_S>(b, s, stamp);
 	if (num == 1) return make_shared<Block_Z>(b, s, stamp);
@@ -118,7 +119,7 @@ LevelThree::LevelThree(): Level() { }
 LevelThree::~LevelThree() { }
 
 shared_ptr<Block> LevelThree::createBlock( Board &b, int s, int stamp ) {
-	srand(time(nullptr));
+	srand(seed);
 	int num = rand() % 9;
 	if (num == 0 || num == 1) return make_shared<Block_S>(b, s, stamp);
 	if (num == 2 || num == 3) return make_shared<Block_Z>(b, s, stamp);
@@ -179,7 +180,7 @@ shared_ptr<Block> LevelFour::createBlock( Board &b, int s, int stamp ) {
 		clear();
 	}
 
-	srand(time(nullptr));
+	srand(seed);
 	int num = rand() % 9;
 	if (num == 0 || num == 1) return make_shared<Block_S>(b, s, stamp);
 	if (num == 2 || num == 3) return make_shared<Block_Z>(b, s, stamp);
