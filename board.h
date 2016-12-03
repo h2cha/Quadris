@@ -21,7 +21,8 @@ class Board {
 
   void drawCurrent( char type, std::shared_ptr<Block> b );
   void popBlock();
-  void deleteARow( int r ); 
+  void deleteARow( int r );
+  void dropBlocks( int r );
 	
   public:
   	Board( int r=18, int c=11, int sc=0, int hisc=0 );

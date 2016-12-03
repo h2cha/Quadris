@@ -33,6 +33,15 @@ void Board::drawCurrent( char type, shared_ptr<Block> b ) {
 	if (type == 'T') setBlock(3,0,3,1,3,2,2,1,current);
 }
 
+void Board::dropBlocks( int r ) {
+	for(int i=r-1; i >= 0; --i) {
+		for(int j=0; j < col; ++j) {
+			setBlock(i+1,j,theBoard[i][j].getBlock());
+			setBlock(i,j,nullptr);
+		}
+	}
+}
+
 void Board::setLevel( int l ) {
 	if (l == 0) level = make_shared<LevelZero>();
 	if (l == 1) level = make_shared<LevelOne>();
@@ -117,6 +126,7 @@ void Board::deleteRows( int r ) {
 	for(int i=r; i < r+4; ++i) {
 		if (isRowFilled(i)) {
 			deleteARow(i);
+			dropBlocks(i);
 			++score;
 		}
 	}

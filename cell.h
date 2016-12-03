@@ -17,6 +17,7 @@ class Cell {
     void setBlock( const std::shared_ptr<Block> b );
   	int getRow() const;
   	int getCol() const;
+    std::shared_ptr<Block> getBlock() const;
   	char getType() const;
   	void attach( const std::shared_ptr<View> disp );
   	void notifyViews() const;
