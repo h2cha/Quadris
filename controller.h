@@ -8,6 +8,7 @@
 #include "board.h"
 #include "textdisplay.h"
 #include "graphicsdisplay.h"
+#include "window.h"
 
 class Controller {
 
@@ -39,6 +40,7 @@ class Controller {
   std::shared_ptr<Board> board;
   std::shared_ptr<TextDisplay> td;
   std::shared_ptr<GraphicsDisplay> gd;
+  std::shared_ptr<Xwindow> win;
   // stores the input.
   std::string input;
 
