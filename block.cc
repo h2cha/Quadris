@@ -58,18 +58,30 @@ void Block::moveDown_helper(int r, int c, int r1, int c1, int r2, int c2, int r3
 	board.setBlock(r,c, r1,c1, r2,c2, r3,c3, nullptr);
 	board.setBlock(r+1,c, r1+1,c1, r2+1,c2, r3+1,c3, board.getCurrent());
 	++row;
+	if (!canOccupy(row+1, c, row+1, c1, row+1, c2, row+1, c3)) dropped = true;
+	if (board.isRowFilled(row)) board.deleteRows(row);
 }
 
 void Block::drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3, int i){
 	board.setBlock(r,c, r1,c1, r2,c2, r3,c3, nullptr);
 	board.setBlock(r+i,c, r1+i,c1, r2+i,c2, r3+i,c3, board.getCurrent());
 	row += i;
+	dropped = true;
+	if (board.isRowFilled(row)) {
+		board.deleteRows(row);
+		board.dropBlocks(row);
+	} 
 }
 
 void Block::drop_helper(int r, int c, int i){
 	board.setBlock(r,c, nullptr);
 	board.setBlock(r+i,c, board.getCurrent());
 	row += i;
+	dropped = true;
+	if (board.isRowFilled(row)) {
+		board.deleteRows(row);
+		board.dropBlocks(row);
+	}
 }
 
 
@@ -146,110 +158,110 @@ Block_J::Block_J( Board& b, int s, int time ):
 Block_J::~Block_J() { }
 
 void Block_J::moveRight(){
-	if (form == form1 && canOccupy(row-2,col+2, row-1,col+2, row,col+2))
+	if (form == form4 && canOccupy(row-2,col+2, row-1,col+2, row,col+2))
 		moveRight_helper(row,col, row,col+1, row-1,col+1, row-2,col+1);
-	if (form == form2 && canOccupy(row-1,col+1, row,col+3)) 
+	if (form == form1 && canOccupy(row-1,col+1, row,col+3)) 
 		moveRight_helper(row,col, row-1,col, row,col+1, row,col+2);
-	if (form == form3 && canOccupy(row-2,col+2, row-1,col+1, row,col+1))	
+	if (form == form2 && canOccupy(row-2,col+2, row-1,col+1, row,col+1))	
 		moveRight_helper(row,col, row-1,col, row-2,col, row-2,col+1);
-	if (form == form4 && canOccupy(row-1,col+3, row,col+3)) 
+	if (form == form3 && canOccupy(row-1,col+3, row,col+3)) 
 		moveRight_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+2);
 }
 
 void Block_J::moveLeft(){
-	if (form == form1 && canOccupy(row,col-1, row-1,col, row-2,col)) 
+	if (form == form4 && canOccupy(row,col-1, row-1,col, row-2,col)) 
 		moveLeft_helper(row,col, row,col+1, row-1,col+1, row-2,col+1);
-	if (form == form2 && canOccupy(row-1,col-1, row,col-1)) 
+	if (form == form1 && canOccupy(row-1,col-1, row,col-1)) 
 		moveLeft_helper(row,col, row-1,col, row,col+1, row,col+2);
-	if (form == form3 && canOccupy(row,col-1, row-1,col-1, row-2,col-1)) 
+	if (form == form2 && canOccupy(row,col-1, row-1,col-1, row-2,col-1)) 
 		moveLeft_helper(row,col, row-1,col, row-2,col, row-2,col+1);
-	if (form == form4 && canOccupy(row-1,col-1, row,col+1)) 
+	if (form == form3 && canOccupy(row-1,col-1, row,col+1)) 
 		moveLeft_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+2);
 }
 
 void Block_J::moveDown(){
-	if (form == form1 && canOccupy(row+1,col, row+1,col+1)) 
+	if (form == form4 && canOccupy(row+1,col, row+1,col+1)) 
 		moveDown_helper(row,col, row,col+1, row-1,col+1, row-2,col+1);
-	if (form == form2 && canOccupy(row+1,col, row+1,col+1, row+1,col+2)) 
+	if (form == form1 && canOccupy(row+1,col, row+1,col+1, row+1,col+2)) 
 		moveDown_helper(row,col, row-1,col, row,col+1, row,col+2);
-	if (form == form3 && canOccupy(row+1,col, row-1,col+1)) 
+	if (form == form2 && canOccupy(row+1,col, row-1,col+1)) 
 		moveDown_helper(row,col, row-1,col, row-2,col, row-2,col+1);
-	if (form == form4 && canOccupy(row,col, row,col+1, row+1,col+2)) 
+	if (form == form3 && canOccupy(row,col, row,col+1, row+1,col+2)) 
 		moveDown_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+2);
 }
 
 void Block_J::drop(){
 	int i=1;
-	if (form == form1) {
+	if (form == form4) {
 		while(canOccupy(row+i,col, row+i,col+1)) { ++i; }
 		drop_helper(row,col, row,col+1, row-1,col+1, row-2,col+1, i-1);
 	}
-	if (form == form2) {
+	if (form == form1) {
 		while(canOccupy(row+i,col, row+i,col+1, row+i, col+2)) { ++i; }
 		drop_helper(row,col, row-1,col, row,col+1, row,col+2, i-1);
 	}
-	if (form == form3) {
+	if (form == form2) {
 		while(canOccupy(row+i,col, row+i-2,col+1)) { ++i; }
 		drop_helper(row,col, row-1,col, row-2,col, row-2,col+1, i-1);
 	}
-	if (form == form4) {
+	if (form == form3) {
 		while(canOccupy(row+i-1,col, row+i-1,col+1, row+i, col+2)) { ++i; }
 		drop_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+2, i-1);
 	}
 }
 
 void Block_J::rotateCW() {
-	if (form == form1) {
+	if (form == form4) {
 		if (canOccupy(row-1,col, row,col+2)) {
 			board.setBlock(row,col, row,col+1, row-1,col+1, row-2,col+1, nullptr);
 			board.setBlock(row,col, row-1,col, row,col+1, row,col+2, board.getCurrent());
-			form = form2;
+			form = form1;
 		} else return;
-	} else if (form == form2){
+	} else if (form == form1){
 		if (canOccupy(row-2,col, row-2,col+1)) {
 			board.setBlock(row,col, row-1,col, row,col+1, row,col+2, nullptr);
 			board.setBlock(row,col, row-1,col, row-2,col, row-2,col+1, board.getCurrent());
-			form = form3;
+			form = form2;
 		} else return;
-	} else if (form == form3){
+	} else if (form == form2){
 		if (canOccupy(row-1,col+1, row-1,col+2, row,col+2)) {
 			board.setBlock(row,col, row-1,col, row-2,col, row-2,col+1, nullptr);
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+2, board.getCurrent());
-			form = form4;
+			form = form3;
 		} else return;
 	} else{
 		if (canOccupy(row,col, row,col+1, row-2,col+1)) {
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+2, nullptr);
 			board.setBlock(row,col, row,col+1, row-1,col+1, row-2,col+1, board.getCurrent());
-			form = form1;
+			form = form4;
 		}
 	}
 }
 
 void Block_J::rotateCC() {
-	if (form == form4) {
+	if (form == form3) {
 		if (canOccupy(row-2,col, row-2,col+1, row,col)) {
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+2, nullptr);
 			board.setBlock(row,col, row-1,col, row-2,col, row-2,col+1, board.getCurrent());
-			form = form3;
-		} else return;
-	} else if (form == form3){
-		if (canOccupy(row,col+1, row,col+2)) {
-			board.setBlock(row,col, row-1,col, row-2,col, row-2,col+1, nullptr);
-			board.setBlock(row,col, row-1,col, row,col+1, row,col+2, board.getCurrent());
 			form = form2;
 		} else return;
 	} else if (form == form2){
+		if (canOccupy(row,col+1, row,col+2)) {
+			board.setBlock(row,col, row-1,col, row-2,col, row-2,col+1, nullptr);
+			board.setBlock(row,col, row-1,col, row,col+1, row,col+2, board.getCurrent());
+			form = form1;
+		} else return;
+	} else if (form == form1){
 		if (canOccupy(row-1,col+1, row-2,col+1)){
 			board.setBlock(row,col, row-1,col, row,col+1, row,col+2, nullptr);
 			board.setBlock(row,col, row,col+1, row-1,col+1, row-2,col+1, board.getCurrent());
-			form = form1;
+			form = form4;
 		} else return;
 	} else{
 		if (canOccupy(row-1,col, row-1,col+2, row,col+2)) {
 			board.setBlock(row,col, row,col+1, row-1,col+1, row-2,col+1, nullptr);
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+2, board.getCurrent());
-			form = form4;
+			form = form3;
 		}
 	}
 
@@ -270,53 +282,53 @@ Block_L::~Block_L() { }
 
 
 void Block_L::moveRight(){
-	if (form == form1 && canOccupy(row,col+2, row-1,col+1, row-2,col+1))
+	if (form == form2 && canOccupy(row,col+2, row-1,col+1, row-2,col+1))
 		moveRight_helper(row,col, row-1,col, row-2,col, row,col+1);
-	if (form == form2 && canOccupy(row-2,col+3, row,col+1)) 
+	if (form == form3 && canOccupy(row-2,col+3, row,col+1)) 
 		moveRight_helper(row-1,col, row-1,col+1, row-1,col+2, row,col);
-	if (form == form3 && canOccupy(row-2,col+2, row-1,col+2, row,col+2)) 
+	if (form == form4 && canOccupy(row-2,col+2, row-1,col+2, row,col+2)) 
 		moveRight_helper(row-2,col, row-2,col+1, row-1,col+1, row,col+1);
-	if (form == form4 && canOccupy(row-1,col+3, row,col+3))
+	if (form == form1 && canOccupy(row-1,col+3, row,col+3))
 		moveRight_helper(row,col, row,col+1, row,col+2, row-1,col+2);
 }
 
 void Block_L::moveLeft(){
-	if (form == form1 && canOccupy(row,col-1, row-1,col-1, row-2,col-1)) 
+	if (form == form2 && canOccupy(row,col-1, row-1,col-1, row-2,col-1)) 
 		moveLeft_helper(row,col, row-1,col, row-2,col, row,col+1);
-	if (form == form2 && canOccupy(row,col-1, row-1,col-1)) 
+	if (form == form3 && canOccupy(row,col-1, row-1,col-1)) 
 		moveLeft_helper(row-1,col, row-1,col+1, row-1,col+2, row,col);
-	if (form == form3 && canOccupy(row,col, row-1,col, row-2,col-1)) 
+	if (form == form4 && canOccupy(row,col, row-1,col, row-2,col-1)) 
 		moveLeft_helper(row-2,col, row-2,col+1, row-1,col+1, row,col+1);
-	if (form == form4 && canOccupy(row,col-1, row-1,col+1)) 
+	if (form == form1 && canOccupy(row,col-1, row-1,col+1)) 
 		moveLeft_helper(row,col, row,col+1, row,col+2, row-1,col+2);
 }
 
 void Block_L::moveDown(){
-	if (form == form1 && canOccupy(row+1,col, row+1,col+1)) 
+	if (form == form2 && canOccupy(row+1,col, row+1,col+1)) 
 		moveDown_helper(row,col, row-1,col, row-2,col, row,col+1);
-	if (form == form2 && canOccupy(row+1,col, row,col+1, row,col+2)) 
+	if (form == form3 && canOccupy(row+1,col, row,col+1, row,col+2)) 
 		moveDown_helper(row-1,col, row-1,col+1, row-1,col+2, row,col);
-	if (form == form3 && canOccupy(row-1,col, row+1,col+1)) 
+	if (form == form4 && canOccupy(row-1,col, row+1,col+1)) 
 		moveDown_helper(row-2,col, row-2,col+1, row-1,col+1, row,col+1);
-	if (form == form4 && canOccupy(row+1,col, row+1,col+1, row+1,col+2))
+	if (form == form1 && canOccupy(row+1,col, row+1,col+1, row+1,col+2))
 		moveDown_helper(row,col, row,col+1, row,col+2, row-1,col+2);
 }
 
 void Block_L::drop(){
 	int i=1;
-	if (form == form1) {
+	if (form == form2) {
 		while(canOccupy(row+i,col, row+i,col+1)) { ++i; }
 		drop_helper(row,col, row-1,col, row-2,col, row,col+1, i-1);
 	}
-	if (form == form2) {
+	if (form == form3) {
 		while(canOccupy(row+i,col, row-1+i,col+1, row-1+i,col+2)) { ++i; }
 		drop_helper(row-1,col, row-1,col+1, row-1,col+2, row,col, i-1);
 	}
-	if (form == form3) {
+	if (form == form4) {
 		while(canOccupy(row-2+i,col, row+i,col+1)) { ++i; }
 		drop_helper(row-2,col, row-2,col+1, row-1,col+1, row,col+1, i-1);
 	}
-	if (form == form4) {
+	if (form == form1) {
 		while(canOccupy(row+i,col, row+i,col+1, row+i,col+2)) { ++i; }
 		drop_helper(row,col, row,col+1, row,col+2, row-1,col+2, i-1);
 	}
@@ -326,58 +338,59 @@ void Block_L::drop(){
 
 
 void Block_L::rotateCW() {
+	///---
 	if (form == form1) {
-		if (canOccupy(row-1,col+1, row-1,col+2)) {
-			board.setBlock(row,col, row-1,col, row-2,col, row,col+1, nullptr);
-			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col, board.getCurrent());
-			form = form2;
-		} else return;
-	} else if (form == form2){
-		if (canOccupy(row-2,col, row-2,col+1, row,col+1)) {
-			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col, nullptr);
-			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, board.getCurrent());
-			form = form3;
-		} else return;
-	} else if (form == form3){
-		if (canOccupy(row,col, row,col+2, row-1,col+2)) {
-			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, nullptr);
-			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+2, board.getCurrent());
-			form = form4;
-		} else return;
-	} else{
 		if (canOccupy(row-2,col, row-1,col)) {
 			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+2, nullptr);
 			board.setBlock(row,col, row-1,col, row-2,col, row,col+1, board.getCurrent());
+			form = form2;
+	  	} else return;
+	} else if (form == form2){
+		if (canOccupy(row-1,col+1, row-1,col+2)) {
+			board.setBlock(row,col, row-1,col, row-2,col, row,col+1, nullptr);
+			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col, board.getCurrent());
+			form = form3;
+		} else return;
+	} else if (form == form3){
+		if (canOccupy(row-2,col, row-2,col+1, row,col+1)) {
+			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col, nullptr);
+			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, board.getCurrent());
+			form = form4;
+		} else return;
+	} else{
+		if (canOccupy(row,col, row,col+2, row-1,col+2)) {
+			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, nullptr);
+			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+2, board.getCurrent());
 			form = form1;
-		}
+		} else return;
 	}
 }
 
 void Block_L::rotateCC() {
 	if (form == form4) {
-		if (canOccupy(row-2,col, row-2,col+1, row-1,col+1)) {
-			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+2, nullptr);
-			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, board.getCurrent());
-			form = form3;
-		} else return;
-	} else if (form == form3){
 		if (canOccupy(row-1,col, row,col, row-1,col+2)) {
 			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, nullptr);
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col, board.getCurrent());
-			form = form2;
+			form = form3;
 		} else return;
-	} else if (form == form2){
+	} else if (form == form3){
 		if (canOccupy(row-2,col, row,col+1)) {
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col, nullptr);
 			board.setBlock(row,col, row-1,col, row-2,col, row,col+1, board.getCurrent());
-			form = form1;
+			form = form2;
 		} else return;
-	} else{
+	} else if (form == form2){
 		if (canOccupy(row,col+2, row-1,col+2)) {
 			board.setBlock(row,col, row-1,col, row-2,col, row,col+1, nullptr);
 			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+2, board.getCurrent());
+			form = form1;
+		} else return;
+	} else{
+		if (canOccupy(row-2,col, row-2,col+1, row-1,col+1)) {
+			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+2, nullptr);
+			board.setBlock(row-2,col, row-2,col+1, row-1,col+1, row,col+1, board.getCurrent());
 			form = form4;
-		}
+		} 
 	}
 }
 
@@ -527,10 +540,9 @@ void Block_Z::drop(){
 	} 
 }
 
-
 void Block_Z::rotateCW() {
 	if (form == form1) {
-		if (canOccupy(row,col, row-1,col+1)) {
+		if (canOccupy(row,col, row-2,col+1)) {
 			board.setBlock(row-1,col, row-1,col+1, row,col+1, row,col+2, nullptr);
 			board.setBlock(row-2,col+1, row-1,col+1, row-1,col, row,col, board.getCurrent());
 			form = form2;
@@ -561,53 +573,53 @@ Block_T::~Block_T() { }
 
 
 void Block_T::moveRight(){
-	if (form == form1 && canOccupy(row-1,col+2, row,col+3)) 
+	if (form == form3 && canOccupy(row-1,col+2, row,col+3)) 
 		moveRight_helper(row,col, row,col+1, row,col+2, row-1,col+1);
-	if (form == form2 && canOccupy(row-2,col+1, row-1,col+2, row,col+1))
+	if (form == form4 && canOccupy(row-2,col+1, row-1,col+2, row,col+1))
 		moveRight_helper(row-2,col, row-1,col, row,col, row-1,col+1);
-	if (form == form3 && canOccupy(row-1, col+3, row,col+2))
+	if (form == form1 && canOccupy(row-1, col+3, row,col+2))
 		moveRight_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+1);
-	if (form == form4 && canOccupy(row-2,col+2, row-1,col+2, row,col+2))
+	if (form == form2 && canOccupy(row-2,col+2, row-1,col+2, row,col+2))
 		moveRight_helper(row-2,col+1, row-1,col, row-1,col+1, row,col+1);
 }
 
 void Block_T::moveLeft(){
-	if (form == form1 && canOccupy(row-1,col, row,col-1))
+	if (form == form3 && canOccupy(row-1,col, row,col-1))
 		moveLeft_helper(row,col, row,col+1, row,col+2, row-1,col+1);
-	if (form == form2 && canOccupy(row-2,col-1, row-1,col-1, row,col-1))
+	if (form == form4 && canOccupy(row-2,col-1, row-1,col-1, row,col-1))
 		moveLeft_helper(row-2,col, row-1,col, row,col, row-1,col+1);
-	if (form == form3 && canOccupy(row-1,col-1, row,col))
+	if (form == form1 && canOccupy(row-1,col-1, row,col))
 		moveLeft_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+1);
-	if (form == form4 && canOccupy(row-2,col, row-1,col-1, row,col))
+	if (form == form2 && canOccupy(row-2,col, row-1,col-1, row,col))
 		moveLeft_helper(row-2,col+1, row-1,col, row-1,col+1, row,col+1);
 }
 
 void Block_T::moveDown(){
-	if (form == form1 && canOccupy(row+1,col, row+1,col+1, row+1,col+2))
+	if (form == form3 && canOccupy(row+1,col, row+1,col+1, row+1,col+2))
 		moveDown_helper(row,col, row,col+1, row,col+2, row-1,col+1);
-	if (form == form2 && canOccupy(row,col+1, row+1,col))
+	if (form == form4 && canOccupy(row,col+1, row+1,col))
 		moveDown_helper(row-2,col, row-1,col, row,col, row-1,col+1);
-	if (form == form3 && canOccupy(row,col, row+1,col+1, row,col+2))
+	if (form == form1 && canOccupy(row,col, row+1,col+1, row,col+2))
 		moveDown_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+1);
-	if (form == form4 && canOccupy(row,col, row+1,col+1))
+	if (form == form2 && canOccupy(row,col, row+1,col+1))
 		moveDown_helper(row-2,col+1, row-1,col, row-1,col+1, row,col+1);
 }
 
 void Block_T::drop(){
 	int i=1;
-	if (form == form1) {
+	if (form == form3) {
 		while(canOccupy(row+i,col, row+i,col+1, row+i,col+2)) { ++i; }
 		drop_helper(row,col, row,col+1, row,col+2, row-1,col+1, i-1);
 	}
-	if (form == form2) {
+	if (form == form4) {
 		while(canOccupy(row-1+i,col+1, row+i,col)) { ++i; }
 		drop_helper(row-2,col, row-1,col, row,col, row-1,col+1, i-1);
 	}
-	if (form == form3) {
+	if (form == form1) {
 		while(canOccupy(row-1+i,col, row+i,col+1, row-1+i,col+2)) { ++i; }
 		drop_helper(row-1,col, row-1,col+1, row-1,col+2, row,col+1, i-1);
 	}
-	if (form == form4) {
+	if (form == form2) {
 		while(canOccupy(row-1+i,col, row+i,col+1)) { ++i; }
 		drop_helper(row-2,col+1, row-1,col, row-1,col+1, row,col+1, i-1);
 	}
@@ -615,56 +627,57 @@ void Block_T::drop(){
 
 
 void Block_T::rotateCW() {
-	if (form == form1) {
+	if (form == form3) {
 		if (canOccupy(row-1,col, row-2,col)) {
 			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+1, nullptr);
 			board.setBlock(row-2,col, row-1,col, row,col, row-1,col+1, board.getCurrent());
-			form = form2;
+			form = form4;
 		} else return;
-	} else if (form == form2){
+	} else if (form == form4){
 		if (canOccupy(row,col+1, row-1,col+2)) {
 			board.setBlock(row-2,col, row-1,col, row,col, row-1,col+1, nullptr);
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+1, board.getCurrent());
-			form = form3;
+			form = form1;
 		} else return;
-	} else if (form == form3){
+	} else if (form == form1){
 		if (canOccupy(row-2,col+1, -1,-1)) {
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+1, nullptr);
 			board.setBlock(row-2,col+1, row-1,col, row-1,col+1, row,col+1, board.getCurrent());
-			form = form4;
+			form = form2;
 		} else return;
 	} else{
 		if (canOccupy(row,col, row,col+2)) {
 			board.setBlock(row-2,col+1, row-1,col, row-1,col+1, row,col+1, nullptr);
 			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+1, board.getCurrent());
-			form = form1;
+			form = form3;
 		}
 	}
 }
 
 void Block_T::rotateCC() {
-	if (form == form4) {
+	if (form == form2) {
 		if (canOccupy(row-1,col+2, -1,-1)) {
 			board.setBlock(row-2,col+1, row-1,col, row-1,col+1, row,col+1, nullptr);
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+1, board.getCurrent());
-			form = form3;
+			form = form1;
 		} else return;
-	} else if (form == form3){
+	} else if (form == form1){
 		if (canOccupy(row-2,col, row,col)) {
 			board.setBlock(row-1,col, row-1,col+1, row-1,col+2, row,col+1, nullptr);
 			board.setBlock(row-2,col, row-1,col, row,col, row-1,col+1, board.getCurrent());
-			form = form2;
+			form = form4;
 		} else return;
-	} else if (form == form2){
+	} else if (form == form4){
 		if (canOccupy(row,col+1, row,col+2))  {
 			board.setBlock(row-2,col, row-1,col, row,col, row-1,col+1, nullptr);
 			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+1, board.getCurrent());
+			form = form3;
 		} else return;
 	} else{
 		if (canOccupy(row-1,col, row-2,col+1)) {
 			board.setBlock(row,col, row,col+1, row,col+2, row-1,col+1, nullptr);
 			board.setBlock(row-2,col+1, row-1,col, row-1,col+1, row,col+1, board.getCurrent());
-			form = form4;
+			form = form2;
 		}
 	}
 }

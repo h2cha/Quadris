@@ -25,21 +25,12 @@ Board::~Board() { }
 
 void Board::drawCurrent( char type, shared_ptr<Block> b ) {
 	if (type == 'I') setBlock(3,0,3,1,3,2,3,3,current);
-	if (type == 'J') setBlock(1,1,2,1,3,1,3,0,current);
-	if (type == 'L') setBlock(1,0,2,0,3,0,3,1,current);
+	if (type == 'J') setBlock(2,0,3,0,3,1,3,2,current);
+	if (type == 'L') setBlock(3,0,3,1,3,2,2,2,current);
 	if (type == 'O') setBlock(2,0,2,1,3,0,3,1,current);
 	if (type == 'Z') setBlock(2,0,2,1,3,1,3,2,current);
 	if (type == 'S') setBlock(3,0,3,1,2,1,2,2,current);
-	if (type == 'T') setBlock(3,0,3,1,3,2,2,1,current);
-}
-
-void Board::dropBlocks( int r ) {
-	for(int i=r-1; i >= 0; --i) {
-		for(int j=0; j < col; ++j) {
-			setBlock(i+1,j,theBoard[i][j].getBlock());
-			setBlock(i,j,nullptr);
-		}
-	}
+	if (type == 'T') setBlock(2,0,2,1,2,2,3,1,current);
 }
 
 void Board::setLevel( int l ) {
@@ -111,6 +102,15 @@ void Board::drop() {
 	blocks.emplace_back(current); 
 }
 
+void Board::dropBlocks( int r ) {
+	for(int i=r-1; i >= 0; --i) {
+		for(int j=0; j < col; ++j) {
+			setBlock(i+1,j,theBoard[i][j].getBlock());
+			setBlock(i,j,nullptr);
+		}
+	}
+}
+
 void Board::levelUp() {
 	int nextLevel = level->getLevel() +1;
 	if (nextLevel <= maximumLevel) setLevel(nextLevel);
@@ -123,10 +123,9 @@ void Board::levelDown() {
 
 void Board::deleteRows( int r ) {
 	int score = level->getScore();
-	for(int i=r; i < r+4; ++i) {
+	for(int i=r; i > r-4; --i) {
 		if (isRowFilled(i)) {
 			deleteARow(i);
-			dropBlocks(i);
 			++score;
 		}
 	}
