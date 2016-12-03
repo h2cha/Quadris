@@ -10,7 +10,8 @@ Controller::Controller()
   td = make_shared<TextDisplay>();
   board->attachView(td);
   board->setLevel(2);
-  board->createBlock();
+  board->createCurrent();
+  board->createNext();
   cout << *td;
   // define function pointers
   command levelUp_ = &Controller::levelUp;
@@ -138,16 +139,16 @@ void Controller::startlevel(int i){}
 
 void Controller::createBlock(){
   if (randomness == false){
-    char current;
     char next;
-    (readfile >> current);
     if (readfile >> next){
-    board->createBlock(current, next);
+    board->createNext(next);
+    board->createCurrent();
     } else {
       readfile.close();
     }
   }
-  board->createBlock();
+  board->createCurrent();
+  board->createNext();
 }
 
 void Controller::right(){
@@ -218,10 +219,7 @@ void Controller::rrandom(){}
 void Controller::noRandom(){
   string file;
   cin >> file;
-  char cur;
   readfile.open(file);
-  readfile >> cur;
-  board->replaceCurrent(cur);
   randomness = false;
 }
 
