@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include "controller.h"
-#include "window.h"
 using namespace std;
 
 Controller::Controller()
@@ -11,7 +10,7 @@ Controller::Controller()
   td = make_shared<TextDisplay>();
   board->attachView(td);
   
-  auto x = make_shared<Xwindow>();
+  win = make_shared<Xwindow>();
   gd = make_shared<GraphicsDisplay>(*x);
   board->attachView(gd);
 
