@@ -66,11 +66,10 @@ void Board::deleteARow( int r ) {
 
 
 // OPERATIONS
-void Board::createBlock() {
-	if (theNext) current = theNext;
-	else current = level->createBlock(*this, level->getScore(), 0);
+void Board::createCurrent() {
+	if (!theNext) current = level->createBlock(*this, level->getScore(), 0);
+	else current = theNext;
 	drawCurrent(current->getType(), current);
-	createNext();
 }
 
 void Board::createNext() {
@@ -78,13 +77,17 @@ void Board::createNext() {
 	notifyViews(*theNext);
 }
 
-void Board::createBlock( char type, char type2 ) {
-	if (theNext) current = theNext;
-	else current = level->createBlock(*this, level->getScore(), 0, type);
+void Board::createCurrent( char type ) {
+	if (!theNext) current = level->createBlock(*this, level->getScore(), 0, type);
+	else current = theNext;
 	drawCurrent(current->getType(), current);
-	theNext = level->createBlock(*this, level->getScore(), 0, type2);
+}
+
+void Board::createNext( char type ) {
+	theNext = level->createBlock(*this, level->getScore(), 0, type);
 	notifyViews(*theNext);
 }
+
 
 void Board::replaceCurrent( char type ) {
 	setBlock(2,0,2,1,2,2,2,3, nullptr);

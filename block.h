@@ -2,6 +2,8 @@
 #define _BLOCK_H_
 #include <string>
 #include <memory>
+#include "window.h"
+
 
 class Board;
 
@@ -36,6 +38,7 @@ protected:
     virtual void rotateCC()=0;
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
+    virtual void drawBlock( Xwindow &x ) const =0;
     bool isValid(int r, int c) const;
     bool canOccupy(int r, int c, int r1, int c1, int r2=-1, int c2=-1, int r3=-1, int c3=-1) const;
 };
@@ -52,6 +55,7 @@ class Block_I: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 
@@ -69,6 +73,7 @@ class Block_J: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 
@@ -86,6 +91,7 @@ class Block_L: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 
@@ -104,6 +110,8 @@ class Block_O: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
+
 };
 
 
@@ -120,6 +128,7 @@ class Block_S: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 
@@ -137,6 +146,7 @@ class Block_Z: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 
@@ -154,6 +164,7 @@ class Block_T: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 
@@ -171,6 +182,7 @@ class Block_X: public Block {
     void rotateCC() override;
   	char getType() const override;
   	std::string drawBlock() const override;
+    void drawBlock( Xwindow &x ) const override;
 };
 
 #endif

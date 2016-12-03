@@ -22,6 +22,13 @@ GraphicsDisplay::GraphicsDisplay( Xwindow &x, int r, int c ):
     	window.fillRectangle(xorigin, c, dimension*11+width, width, Xwindow::White);
   	}
   	window.fillRectangle(xorigin, 3*dimension + yorigin-0.5 , dimension*11+width, 2, Xwindow::White);
+
+    window.drawString(5,20,"Level:");
+    window.drawString(5,35,"Score:");
+    window.drawString(5,50,"HiScore:");
+
+    window.drawString(405,20,"Next Block:");
+
 }
 
 GraphicsDisplay::~GraphicsDisplay() { }
@@ -30,10 +37,16 @@ void GraphicsDisplay::notify( const Cell &c ) {
 }
 
 void GraphicsDisplay::notify( const Block &b ) {
-
+  b.drawBlock(window);
 }
 
 void GraphicsDisplay::notify( const Board &b ) {
-
+  window.fillRectangle(60,20,40,30,Xwindow::White); // erase old data
+  level = to_string(b.getLevel());
+  score = to_string(b.getScore());
+  hiScore = to_string(b.getHiScore());
+  window.drawString(60,20,level);
+  window.drawString(60,35,score);
+  window.drawString(60,50,hiScore);
 }
 

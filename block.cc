@@ -1,6 +1,7 @@
 #include <string>
 #include "block.h"
 #include "board.h"
+#include "window.h"
 
 #include <iostream>
 
@@ -148,6 +149,9 @@ char Block_I::getType() const { return 'I'; }
 
 string Block_I::drawBlock() const { return "IIII"; }
 
+void Block_I::drawBlock(Xwindow &x) const {
+	for(int i=0; i < 4; ++i) x.fillRectangle(405+i*20,40, 19,19,Xwindow::Blue);
+}
 
 
 
@@ -271,6 +275,11 @@ void Block_J::rotateCC() {
 char Block_J::getType() const { return 'J'; }
 
 string Block_J::drawBlock() const { return "J\nJJJ"; }
+
+void Block_J::drawBlock(Xwindow &x) const {
+	x.fillRectangle(405,40,19,19,Xwindow::Blue);
+	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+}
 
 
 
@@ -398,6 +407,11 @@ char Block_L::getType() const { return 'L'; }
 
 string Block_L::drawBlock() const { return "  L\nLLL"; }
 
+void Block_L::drawBlock(Xwindow &x) const {
+	x.fillRectangle(445,40,19,19,Xwindow::Blue);
+	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+}
+
 
 
 
@@ -434,6 +448,11 @@ void Block_O::rotateCW(){}
 char Block_O::getType() const { return 'O'; }
 
 string Block_O::drawBlock() const { return "OO\nOO"; }
+
+void Block_O::drawBlock(Xwindow &x) const {
+	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Blue);
+	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+}
 
 
 
@@ -499,6 +518,11 @@ char Block_S::getType() const { return 'S'; }
 
 string Block_S::drawBlock() const { return " SS\nSS"; }
 
+void Block_S::drawBlock(Xwindow &x) const {
+	for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,40,19,19,Xwindow::Blue);
+        for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
+}
+
 
 
 
@@ -561,6 +585,11 @@ void Block_Z::rotateCC() { rotateCW(); }
 char Block_Z::getType() const { return 'Z'; }
 
 string Block_Z::drawBlock() const { return "ZZ\n ZZ"; }
+
+void Block_Z::drawBlock(Xwindow &x) const {
+	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Blue);
+        for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,60,19,19,Xwindow::Blue);
+}
 
 
 
@@ -687,6 +716,12 @@ char Block_T::getType() const { return 'T'; }
 string Block_T::drawBlock() const { return "TTT\n T"; }
 
 
+void Block_T::drawBlock(Xwindow &x) const {
+	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Blue);
+	x.fillRectangle(425,60,19,19,Xwindow::Blue);
+}
+
+
 
 
 Block_X::Block_X( Board& b, int s, int time ):
@@ -715,3 +750,5 @@ void Block_X::rotateCW(){}
 char Block_X::getType() const { return 'X'; }
 
 string Block_X::drawBlock() const { return "X"; }
+
+void Block_X::drawBlock( Xwindow &x ) const {}

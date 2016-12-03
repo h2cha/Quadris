@@ -22,16 +22,16 @@ class Board {
   void drawCurrent( char type, std::shared_ptr<Block> b );
   void popBlock();
   void deleteARow( int r );
-  void dropBlocks( int r );
 	
   public:
   	Board( int r=18, int c=11, int sc=0, int hisc=0 );
   	~Board();
     
     // OPERATIONS
-    void createBlock();
+    void createCurrent();
+    void createCurrent( char type );
     void createNext();
-    void createBlock( char type, char type2 );
+    void createNext( char type );
     void replaceCurrent( char type ); 
     void moveRight();
     void moveLeft();
@@ -43,6 +43,9 @@ class Board {
     void levelUp();
     void levelDown();
     void deleteRows( int r );
+    void dropBlocks( int r );
+
+
 
     // MUTATOR
   	void attachView( const std::shared_ptr<View> v );
