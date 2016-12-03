@@ -44,6 +44,7 @@ class Board {
     void levelDown();
     void deleteRows( int r );
     void dropBlocks( int r );
+    void setSeed(int s );
 
 
 

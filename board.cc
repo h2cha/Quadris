@@ -142,7 +142,7 @@ void Board::deleteRows( int r ) {
 	popBlock();
 }
 
-
+void Board::setSeed( int s ) { level->setSeed(s); }
 
 
 // MUTATOR
