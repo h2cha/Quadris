@@ -7,6 +7,7 @@
 #include <memory>
 #include "board.h"
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
 
 class Controller {
 
@@ -37,7 +38,7 @@ class Controller {
   // board of the game
   std::shared_ptr<Board> board;
   std::shared_ptr<TextDisplay> td;
-
+  std::shared_ptr<GraphicsDisplay> gd;
   // stores the input.
   std::string input;
 
