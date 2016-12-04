@@ -46,7 +46,7 @@ class Board {
     int deleteRows( int r );
     void dropBlocks( int r );
     void setSeed(int s );
-
+    void restart();
 
 
     // MUTATOR
