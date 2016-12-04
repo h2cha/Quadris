@@ -21,7 +21,7 @@ class Level {
     virtual void moveRight( Block &b ) const;
     virtual void moveLeft( Block &b ) const;
     virtual void moveDown( Block &b ) const;
-    virtual void drop( Block &b ) const;
+    virtual void drop( Block &b );
 
     void setSeed( int s );
     virtual int getScore() const =0;
@@ -87,7 +87,7 @@ class LevelFour: public Level {
 	  ~LevelFour();
 
     std::shared_ptr<Block> createBlock( Board &b, int s, int stamp ) override;
-
+    void drop( Block &b ) override;
     void rotateCW( Block &b ) const override;
     void rotateCC( Block &b ) const override;
     void moveRight( Block &b ) const override;
