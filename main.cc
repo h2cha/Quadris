@@ -9,17 +9,17 @@ using namespace std;
 int main (int argc, char *argv[]) {
 	Controller c;
 	if (argc > 1){
-		if (str(argv[1]) == "-text"){
+		if (string(argv[1]) == "-text"){
 			c.textMode();
 		}
-		else if	(str(argv[1]) == "-seed"){
-			c.setSeed(str(argv[2]));
+		else if	(string(argv[1]) == "-seed"){
+			c.setSeed(string(argv[2]));
 		}
-	    else if (str(argv[1]) == "-scriptfile"){
-			c.scriptfile(str(argv[2]));
+	    else if (string(argv[1]) == "-scriptfile"){
+			c.scriptfile(string(argv[2]));
 		}
-	    else if (str(argv[1]) == "-startlevel"){
-			c.startlevel(str(argv[2]));
+	    else if (string(argv[1]) == "-startlevel"){
+			c.startlevel(string(argv[2]));
 		}
 		else{
 			cerr << "Invalid Command" << endl;
