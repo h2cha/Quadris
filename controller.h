@@ -40,7 +40,8 @@ class Controller {
   std::shared_ptr<Board> board;
   std::shared_ptr<TextDisplay> td;
   std::shared_ptr<GraphicsDisplay> gd;
-  //std::shared_ptr<Xwindow> win;
+  std::shared_ptr<Xwindow> win;
+  
   // stores the input.
   std::string input;
 
