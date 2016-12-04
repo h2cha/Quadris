@@ -69,8 +69,8 @@ void Block::drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, in
 	row += i;
 	dropped = true;
 	if (board.isRowFilled(row)) {
-		board.deleteRows(row);
-		board.dropBlocks(row);
+		int rows = board.deleteRows(row);
+		for(int i=0; i<rows; ++i) board.dropBlocks(row);
 	} 
 }
 

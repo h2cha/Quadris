@@ -22,6 +22,7 @@ class Board {
   void drawCurrent( char type, std::shared_ptr<Block> b );
   void popBlock();
   void deleteARow( int r );
+  void clearBoard();
 	
   public:
   	Board( int r=18, int c=11, int sc=0, int hisc=0 );
@@ -42,7 +43,7 @@ class Board {
     void setLevel( int l );
     void levelUp();
     void levelDown();
-    void deleteRows( int r );
+    int deleteRows( int r );
     void dropBlocks( int r );
     void setSeed(int s );
 

@@ -23,6 +23,12 @@ Board::~Board() { }
 
 // private methods
 
+void Board::clearBoard() {
+	for(auto v : theBoard) {
+		for(auto c : v) c.setBlock(nullptr);
+	}
+}
+
 void Board::drawCurrent( char type, shared_ptr<Block> b ) {
 	if (type == 'I') setBlock(3,0,3,1,3,2,3,3,current);
 	if (type == 'J') setBlock(2,0,3,0,3,1,3,2,current);
@@ -114,8 +120,10 @@ void Board::drop() {
 void Board::dropBlocks( int r ) {
 	for(int i=r-1; i >= 0; --i) {
 		for(int j=0; j < col; ++j) {
-			setBlock(i+1,j,theBoard[i][j].getBlock());
-			setBlock(i,j,nullptr);
+			if (!theBoard[i][j].isEmpty()) {
+				setBlock(i+1,j,theBoard[i][j].getBlock());
+				setBlock(i,j,nullptr);
+			}
 		}
 	}
 }
@@ -130,16 +138,19 @@ void Board::levelDown() {
 	if (nextLevel >= minimumLevel) setLevel(nextLevel);
 }
 
-void Board::deleteRows( int r ) {
+int Board::deleteRows( int r ) {
+	int deleteRows = 0;
 	int score = level->getScore();
 	for(int i=r; i > r-4; --i) {
 		if (isRowFilled(i)) {
 			deleteARow(i);
 			++score;
+			++deleteRows;
 		}
 	}
 	addScore(score*score);
 	popBlock();
+	return deleteRows;
 }
 
 void Board::setSeed( int s ) { level->setSeed(s); }
@@ -181,6 +192,14 @@ void Board::setHiScore( int n ) {
 	notifyViews();
 }
 
+void Board::restart() {
+	current = nullptr;
+	theNext = nullptr;
+	blocks.clear();
+	clearBoard();
+	level = make_shared<LevelOne>();
+	score = 0;
+}
 
 
 
