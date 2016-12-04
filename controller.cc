@@ -289,6 +289,8 @@ void Controller::sequence(){
   }
 }
 
-void Controller::restart(){}
+void Controller::restart(){
+  board->restart();
+}
 
 void Controller::hint(){}
