@@ -33,7 +33,7 @@ void Level::moveLeft( Block &b ) const { b.moveLeft(); }
 
 void Level::moveDown( Block &b ) const { b.moveDown(); }
 
-void Level::drop( Block &b ) const { 
+void Level::drop( Block &b ) { 
 	b.drop(); }
 
 void Level::setSeed( int s ) { seed = s; }
@@ -172,7 +172,6 @@ LevelFour::LevelFour(): Level() { }
 LevelFour::~LevelFour() { }
 
 shared_ptr<Block> LevelFour::createBlock( Board &b, int s, int stamp ) {
-	++fallen;
 	// dropping 1x1 block
 	if (fallen == 5) {
 		auto x = make_shared<Block_X>(b, s, stamp);
@@ -215,6 +214,11 @@ void LevelFour::moveLeft( Block &b ) const {
 void LevelFour::moveDown( Block &b ) const {
 	b.moveDown();
 	b.moveDown();
+}
+
+void LevelFour::drop( Block &b ) {
+	b.drop();
+	++ fallen;
 }
 
 int LevelFour::getScore() const { return 25; }
