@@ -65,8 +65,7 @@ Controller::~Controller(){
 
 //PLAY===========================================================================
 void Controller::play(){
-  if (board->getLevel == 0){
-    (readfile == null){
+  if ((board->getLevel == 0) &&  (readfile == null)){
       cerr << "sequence file not found" << endl;
       exit 1;
     }
