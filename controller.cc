@@ -73,8 +73,7 @@ void Controller::play(){
     gd = make_shared<GraphicsDisplay>(*win);
     board->attachView(gd);
   }
-
-  board->setLevel(2);
+  
   createBlock();
   cout << *td;
 
