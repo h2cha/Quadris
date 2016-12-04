@@ -65,6 +65,12 @@ Controller::~Controller(){
 
 //PLAY===========================================================================
 void Controller::play(){
+  if (board->getLevel == 0){
+    (readfile == null){
+      cerr << "sequence file not found" << endl;
+      exit 1;
+    }
+  }
   td = make_shared<TextDisplay>();
   board->attachView(td);
 
