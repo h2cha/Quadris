@@ -28,7 +28,8 @@ int main (int argc, char *argv[]) {
 	}
 	try{
 	c.play();
-	} catch(invalid_argument){
-		cerr << "sequence file not found" << endl;
+	} catch(invalid_argument e){
+		cerr << "NOPE" << endl;
 	}
+
 }
