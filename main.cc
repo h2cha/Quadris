@@ -8,7 +8,7 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
 	Controller c;
-	if (argv.length() > 1){
+	if (argc > 1){
 		if (str(argv[1]) == "-text"){
 			c.textMode();
 		}
@@ -19,11 +19,10 @@ int main (int argc, char *argv[]) {
 			c.scriptfile(str(argv[2]));
 		}
 	    else if (str(argv[1]) == "-startlevel"){
-			c.startLevel(str(argv[2]));
+			c.startlevel(str(argv[2]));
 		}
 		else{
 			cerr << "Invalid Command" << endl;
-			break;		
 		}
 	}
 	c.play();
