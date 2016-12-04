@@ -67,7 +67,7 @@ Controller::~Controller(){
 //PLAY===========================================================================
 void Controller::play(){
   if ((board->getLevel() == 0) && (readfile == NULL)){
-      throw invalid_argument;
+    return;
   }
   td = make_shared<TextDisplay>();
   board->attachView(td);
