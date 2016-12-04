@@ -4,6 +4,7 @@
 #include "level.h"
 using namespace std;
 
+#include <iostream>
 
 int minimumLevel = 0;
 int maximumLevel = 4;
@@ -17,6 +18,7 @@ Board::Board( int r, int c, int sc, int hisc ):
 		}
 		theBoard.emplace_back(v);
 	}
+	level = make_shared<LevelZero>();
 }
 
 Board::~Board() { }
@@ -113,6 +115,7 @@ void Board::rotateCW() { level->rotateCW(*current); }
 void Board::rotateCC() { level->rotateCC(*current); }
 
 void Board::drop() { 
+cout << level->getFallen() << "fallen" << endl;
 	level->drop(*current);
 	blocks.emplace_back(current); 
 }
@@ -146,6 +149,7 @@ int Board::deleteRows( int r ) {
 			deleteARow(i);
 			++score;
 			++deleteRows;
+			level->clear();
 		}
 	}
 	addScore(score*score);

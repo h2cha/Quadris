@@ -43,7 +43,7 @@ void Level::setSeed( int s ) {
 
 void Level::clear() { fallen = 0; }
 
-
+int Level::getFallen() const { return fallen; }
 
 LevelZero::LevelZero(): Level() { }
 
@@ -220,11 +220,13 @@ void LevelFour::moveDown( Block &b ) const {
 }
 
 void LevelFour::drop( Block &b ) {
+	++fallen;
 	b.drop();
-	++ fallen;
 }
 
 int LevelFour::getScore() const { return 25; }
 
 int LevelFour::getLevel() const { return 4; }
+
+
 

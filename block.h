@@ -29,7 +29,7 @@ protected:
     void moveLeft_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
     void moveDown_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
     void drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3, int i);
-    void drop_helper(int r, int c, int i);
+    void drop_helper(int r, int c, int i, std::shared_ptr<Block> b );
     virtual void moveRight()=0;
     virtual void moveLeft()=0;
     virtual void moveDown()=0;

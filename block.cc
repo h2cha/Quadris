@@ -25,16 +25,7 @@ Block::Block( Board& b, int s, int time ):
 	board{b}, score{s}, timeStamp{time} { }
 
 Block::~Block() { }
-/*
-bool Block::isEmpty(int row, int col) const {
-	return (isValid(row, col) && board.isEmpty(row, col));
-}
 
-bool Block::isEmpty(int row, int col, int r1, int c1, int r2, int c2, int r3, int c3) const {
-	return (isValid(row, col, r1, c1, r2, c2, r3, c3) &&
-		board.isEmpty(row, col, r1, c1, r2, c2, r3, c3));
-}
-*/
 bool Block::isDropped() const { return dropped; }
 
 void Block::setCoord( int m, int n ) {
@@ -74,9 +65,9 @@ void Block::drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, in
 	} 
 }
 
-void Block::drop_helper(int r, int c, int i){
+void Block::drop_helper( int r, int c, int i, shared_ptr<Block> b ){
 	board.setBlock(r,c, nullptr);
-	board.setBlock(r+i,c, board.getCurrent());
+	board.setBlock(r+i,c, b);
 	row += i;
 	dropped = true;
 	if (board.isRowFilled(row)) {
@@ -92,6 +83,7 @@ Block_I::Block_I( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_I::~Block_I() { }
+
 
 void Block_I::moveRight(){
 	if (form == form1 && canOccupy(row,col+4, -1,-1)) 
@@ -740,7 +732,7 @@ void Block_X::moveDown(){}
 void Block_X::drop(){
 	int i=1;
 	while(canOccupy(row+i,col, -1, -1)) { ++i; }
-	drop_helper(row, col, i-1);
+	drop_helper(row, col, i-1, shared_ptr<Block>{this});
 }
 
 void Block_X::rotateCC(){}

@@ -23,9 +23,11 @@ class Level {
     virtual void moveDown( Block &b ) const;
     virtual void drop( Block &b );
 
+    int getFallen() const ;
     void setSeed( int s );
     virtual int getScore() const =0;
     virtual int getLevel() const =0;
+
     void clear();
   	virtual ~Level()=0;
 };
