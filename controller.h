@@ -48,7 +48,7 @@ class Controller {
   bool randomness;
 
   // textMode;
-  bool textMode;
+  bool textmode;
 
   // ifstream to read from file
   std::ifstream readfile;
