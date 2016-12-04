@@ -26,13 +26,13 @@ class Controller {
   void textMode();
 
   // sets the seed of random generator
-  void setSeed(int);
+  void setSeed(std::string);
  
   // uses 'file' instead of sequence.txt as a source of blocks for level 0.
   void scriptfile(std::string);
 
   // starts the game in level n.
-  void startlevel(int);
+  void startlevel(std::string);
  
   private:
   //---[member variables]---
@@ -40,12 +40,15 @@ class Controller {
   std::shared_ptr<Board> board;
   std::shared_ptr<TextDisplay> td;
   std::shared_ptr<GraphicsDisplay> gd;
-  std::shared_ptr<Xwindow> win;
+  //std::shared_ptr<Xwindow> win;
   // stores the input.
   std::string input;
 
   // checks randomness;
   bool randomness;
+
+  // textMode;
+  bool textMode;
 
   // ifstream to read from file
   std::ifstream readfile;
