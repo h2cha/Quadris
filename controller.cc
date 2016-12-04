@@ -66,9 +66,9 @@ Controller::~Controller(){
 
 //PLAY===========================================================================
 void Controller::play(){
-  if ((board->getLevel() == 0) && (readfile.fail())){
-    return;
-  }
+  if (board->getLevel() == 0 && !(readfile.is_open())){
+    throw invalid_argument("Sequence file missing!");
+  } 
   td = make_shared<TextDisplay>();
   board->attachView(td);
 
