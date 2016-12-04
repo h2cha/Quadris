@@ -9,19 +9,19 @@ using namespace std;
 int main (int argc, char *argv[]) {
 	Controller c;
 	if (argv.length() > 1){
-		if (argv[1] == "-text"){
+		if (str(argv[1]) == "-text"){
 			c.textMode();
 		}
-		else if	(argv[1] == "-seed"){
-			c.setSeed(argv[++i]);
+		else if	(str(argv[1]) == "-seed"){
+			c.setSeed(str(argv[2]));
 		}
-	    else if (argv[1] == "-scriptfile"){
-			c.scriptfile(argv[++i]);
+	    else if (str(argv[1]) == "-scriptfile"){
+			c.scriptfile(str(argv[2]));
 		}
-	    else if (argv[1] == "-startlevel"){
-			c.startLevel(argv[++i]);
+	    else if (str(argv[1]) == "-startlevel"){
+			c.startLevel(str(argv[2]));
 		}
-		else if{
+		else{
 			cerr << "Invalid Command" << endl;
 			break;		
 		}
