@@ -184,7 +184,9 @@ void Controller::textMode(){
 
 
 //SETSEED========================================================================
-void Controller::setSeed(int i){}
+void Controller::setSeed(string s){
+  board->setSeed(atoi(s.c_str()));
+}
 //===============================================================================
 
 
