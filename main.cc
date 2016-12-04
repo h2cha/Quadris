@@ -8,18 +8,18 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
 	Controller c;
-	if (argc > 1){
-		if (string(argv[1]) == "-text"){
+	for (int i = 1; i < argc; i++){
+		if (string(argv[i]) == "-text"){
 			c.textMode();
 		}
-		else if	(string(argv[1]) == "-seed"){
-			c.setSeed(string(argv[2]));
+		else if	(string(argv[i]) == "-seed"){
+			c.setSeed(string(argv[++i]));
 		}
-	    else if (string(argv[1]) == "-scriptfile"){
-			c.scriptfile(string(argv[2]));
+	    else if (string(argv[i]) == "-scriptfile"){
+			c.scriptfile(string(argv[++i]));
 		}
-	    else if (string(argv[1]) == "-startlevel"){
-			c.startlevel(string(argv[2]));
+	    else if (string(argv[i]) == "-startlevel"){
+			c.startlevel(string(argv[++i]));
 		}
 		else{
 			cerr << "Invalid Command" << endl;
