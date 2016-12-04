@@ -70,7 +70,6 @@ void Controller::play(){
       throw(invalid_arguemnt){
       }
     }
-  }
   td = make_shared<TextDisplay>();
   board->attachView(td);
 
