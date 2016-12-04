@@ -3,22 +3,14 @@
 #include "controller.h"
 using namespace std;
 
+//CONSTRUCTOR=====================================================================
 Controller::Controller()
 {
   randomness = true;
-  board = make_shared<Board>();
-  td = make_shared<TextDisplay>();
-  board->attachView(td);
-  
-  win = make_shared<Xwindow>();
-  gd = make_shared<GraphicsDisplay>(*win);
-  board->attachView(gd);
+  textmode = false;
 
-  board->setLevel(2);
-  board->createCurrent();
-  board->createNext();
-  cout << *td;
-  // define function pointers
+  board = make_shared<Board>();
+  // define function pointers;
   command levelUp_ = &Controller::levelUp;
   command levelDown_ = &Controller::levelDown;
   command right_ = &Controller::right;
@@ -39,8 +31,8 @@ Controller::Controller()
   command sequence_ = &Controller::sequence;
   command restart_ = &Controller::restart;
   command hint_ = &Controller::hint;
-  
-  // insert to cmdMap
+
+  // insert to cmdMap;
   cmdMap["levelup"] = levelUp_;
   cmdMap["levelDown"] = levelDown_;
   cmdMap["right"] = right_;
@@ -62,53 +54,79 @@ Controller::Controller()
   cmdMap["restart"] = restart_;
   cmdMap["hint"] = hint_;
 };
+//===============================================================================
 
+
+//DESTRUCTOR=====================================================================
 Controller::~Controller(){
-//  map<string, command>::iterator it;
-//  for (it = cmdMap.begin(); it != cmdMap.end(); it++){
-//    delete it->second;
-//  }
 };
+//===============================================================================
 
+
+//PLAY===========================================================================
 void Controller::play(){
+  td = make_shared<TextDisplay>();
+  board->attachView(td);
+
+  if (textmode == false){
+    win = make_shared<Xwindow>();
+    gd = make_shared<GraphicsDisplay>(*win);
+    board->attachView(gd);
+  }
+
+  board->setLevel(2);
+  createBlock();
+  cout << *td;
+
   while (cin >> input){
     parseInput();
     cout << *td;
   }
   cout << "Game Over" << endl;
 }
+//===============================================================================
 
+
+//PARSEINPUT=====================================================================
 void Controller::parseInput(){
   string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  //find the first occurrence of alphabet;
   size_t pos = input.find_first_of(alphabet);
   int multiplierNum;
   string multiplier;
 
+  //if there is a multiplier prefix:
   if (pos != 0){
     multiplier = input.substr(0, pos);
     input = input.substr(pos, input.length());
     cout << input << endl;
-  } else {
+  } else { // else
     multiplier = "1";
   }
 
+  //execute number of multiplier num times;
   multiplierNum = atoi(multiplier.c_str());
   for (int i = multiplierNum; i > 0; i--){
     execute();
   }
 }
+//===============================================================================
 
+
+//CHECKCOMMAND===================================================================
 bool Controller::checkCommand(){
+  //string to store corresponding command;
   string cmd;
   int correspondence = 0;
   map<string, command>::iterator it;
   for (it = cmdMap.begin(); it != cmdMap.end(); it++){
     if (it->first.substr(0, input.length()) == input){
       correspondence++;
+      // cmd = corresponding command;
       cmd = it->first;
-      cout << it->first << endl;
     }
   }
+  // check if cmd is a shortcut - if there is only 1 corresponding func;
   if (correspondence == 1){
     cout << correspondence << endl;
     input = cmd;
@@ -116,32 +134,31 @@ bool Controller::checkCommand(){
   }
   return false;
 } 
+//===============================================================================
 
+
+//EXECUTE========================================================================
 void Controller::execute(){
   map<string, command>::iterator it;
+  //find input(command);
   it = cmdMap.find(input);
-  cout << "0" << endl;
+  //if not found;
   if (it == cmdMap.end()){
+    //run checkCommand
     if (checkCommand()){
-      cout << "1" << endl;
+      //find input(command);
       it = cmdMap.find(input);
     }
   }
+  //if input had been found;
   if (it != cmdMap.end())
+  //run command;
   (this->*it->second)();
 }
+//===============================================================================
 
-void Controller::textMode(){}
 
-  // sets the seed of random generator
-void Controller::setSeed(int i){}
- 
-  // uses 'file' instead of sequence.txt as a source of blocks for level 0.
-void Controller::scriptfile(string s){}
-
-  // starts the game in level n.
-void Controller::startlevel(int i){}
-
+//CREATEBLOCK====================================================================
 void Controller::createBlock(){
   if (randomness == false){
     char next;
@@ -150,12 +167,45 @@ void Controller::createBlock(){
     board->createCurrent();
     } else {
       readfile.close();
+      randomness = true;
     }
   }
   board->createCurrent();
   board->createNext();
 }
+//===============================================================================
 
+
+//TEXTMODE=======================================================================
+void Controller::textMode(){
+  textMode = true;
+}
+//===============================================================================
+
+
+//SETSEED========================================================================
+void Controller::setSeed(int i){}
+//===============================================================================
+
+
+//SCRIPTFILE=====================================================================
+void Controller::scriptfile(string s){
+  if (board->getLevel == 0){
+    readfile.open(s);
+    randomness = false;
+  }
+}
+//===============================================================================
+
+
+//STARTLEVEL=====================================================================
+void Controller::startlevel(string s){
+  board->setLevel(atoi(s.c_str()));
+}
+//===============================================================================
+
+
+//COMMANDS=======================================================================
 void Controller::right(){
   board->moveRight();
 }
