@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <stdexcept>
 #include "controller.h"
 using namespace std;
 
@@ -65,9 +66,9 @@ Controller::~Controller(){
 
 //PLAY===========================================================================
 void Controller::play(){
-  if ((board->getLevel == 0) &&  (readfile == null)){
-      cerr << "sequence file not found" << endl;
-      exit 1;
+  if ((board->getLevel() == 0) && (readfile == nullptr)){
+      throw(invalid_arguemnt){
+      }
     }
   }
   td = make_shared<TextDisplay>();

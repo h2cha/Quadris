@@ -25,5 +25,9 @@ int main (int argc, char *argv[]) {
 			cerr << "Invalid Command" << endl;
 		}
 	}
+	try{
 	c.play();
+	} catch(invalid_argument){
+		cerr << "sequence file not found" << endl;
+	}
 }
