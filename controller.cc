@@ -66,8 +66,8 @@ Controller::~Controller(){
 
 //PLAY===========================================================================
 void Controller::play(){
-  if ((board->getLevel() == 0) && (readfile == nullptr)){
-      throw(invalid_arguemnt){
+  if ((board->getLevel() == 0) && (readfile == NULL)){
+      throw(invalid_argument){
       }
     }
   td = make_shared<TextDisplay>();
