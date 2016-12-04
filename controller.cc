@@ -192,7 +192,7 @@ void Controller::setSeed(string s){
 
 //SCRIPTFILE=====================================================================
 void Controller::scriptfile(string s){
-  if (board->getLevel == 0){
+  if (board->getLevel() == 0){
     readfile.open(s);
     randomness = false;
   }
