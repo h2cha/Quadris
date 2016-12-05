@@ -49,8 +49,6 @@ class Board {
     void dropBlocks( int r );
     void setSeed(int s );
     void restart();
-    void getHint();
-    /*std::vector<int> getInfo();//*/
 
 
     // MUTATOR
