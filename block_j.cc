@@ -150,3 +150,5 @@ void Block_J::drawBlock(Xwindow &x) const {
 	x.fillRectangle(405,40,19,19,Xwindow::Blue);
 	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Blue);
 }
+
+

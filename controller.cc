@@ -384,3 +384,5 @@ void Controller::rename(){
     cmdMap.erase(it);
   }
 }
+
+

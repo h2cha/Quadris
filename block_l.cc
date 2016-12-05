@@ -154,3 +154,4 @@ void Block_L::drawBlock(Xwindow &x) const {
 	x.fillRectangle(445,40,19,19,Xwindow::Orange);
 	for(int i=0; i<3; ++i) x.fillRectangle(405+i*20,60,19,19,Xwindow::Orange);
 }
+

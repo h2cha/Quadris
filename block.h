@@ -17,7 +17,6 @@ class Block {
   	bool dropped;
   	int form;
 
-  private:
     void moveRight_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
     void moveLeft_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
     void moveDown_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
@@ -50,3 +49,5 @@ class Block {
 };
 
 #endif
+
+

@@ -228,14 +228,6 @@ void Board::restart() {
 	score = 0;
 }
 
-void Board::getHint() {
-	for(int r=row-1; r >= 0; --r) {
-		for(int c=0; c < col; ++c) {
-
-		}
-	}
-}
-
 
 
 

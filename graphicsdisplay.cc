@@ -66,7 +66,7 @@ void GraphicsDisplay::notify( const Block &b ) {
 }
 
 void GraphicsDisplay::notify( const Board &b ) {
-  window.fillRectangle(60,20,40,30,Xwindow::Black); // erase old data
+  window.fillRectangle(60,0,40,70,Xwindow::Black); // erase old data
   level = to_string(b.getLevel());
   score = to_string(b.getScore());
   hiScore = to_string(b.getHiScore());

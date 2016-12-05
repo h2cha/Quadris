@@ -82,3 +82,5 @@ void Block_Z::drawBlock(Xwindow &x) const {
 	for(int i=0; i<2; ++i) x.fillRectangle(405+i*20,40,19,19,Xwindow::Red);
         for(int i=0; i<2; ++i) x.fillRectangle(425+i*20,60,19,19,Xwindow::Red);
 }
+
+

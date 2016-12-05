@@ -51,3 +51,5 @@ ostream &operator<<( ostream &out, const TextDisplay &td ) {
 	return out;
 }
 
+
+
