@@ -57,13 +57,13 @@ void Board::setLevel( int l ) {
 void Board::popBlock() {
 
 	int size = blocks.size();
-	for(int i=0; i < size; ++i) {
-		if (blocks[i].use_count() <= 1) {
+	for(int i=0; i < size;++i) {
+		if ((i+1 == size && blocks[i].use_count() == 2) || blocks[i].use_count() <= 1) {
 			addScore(blocks[i]->getScore());
 			blocks.erase(blocks.begin() +i);
 			--i;
 			size = blocks.size();
-		}
+		} 
 	}
 }
 
@@ -138,9 +138,9 @@ void Board::rotateCW() { level->rotateCW(*current); }
 
 void Board::rotateCC() { level->rotateCC(*current); }
 
-void Board::drop() { 
-	level->drop(*current);
+void Board::drop() {
 	blocks.emplace_back(current); 
+	level->drop(*current);
 }
 
 void Board::dropBlocks( int r ) {

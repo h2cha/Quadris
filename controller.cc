@@ -11,7 +11,7 @@ Controller::Controller()
 {
   randomness = true;
   textmode = false;
-
+  readfile.exceptions(ios::failbit|ios::eofbit);
   board = make_shared<Board>();
   // define function pointers;
   command levelUp_ = &Controller::levelUp;
@@ -38,7 +38,7 @@ Controller::Controller()
 
   // insert to cmdMap;
   cmdMap["levelup"] = levelUp_;
-  cmdMap["levelDown"] = levelDown_;
+  cmdMap["leveldown"] = levelDown_;
   cmdMap["right"] = right_;
   cmdMap["left"] = left_;
   cmdMap["down"] = down_;
@@ -81,7 +81,7 @@ void Controller::cmdLine( int argc, char *argv[] ) {
       scriptfile(string(argv[++i]));
     }
     else if (string(argv[i]) == "-startlevel"){
-      if (i+i >= argc) throw invalid_argument("level missing");
+      if (i+1 >= argc) throw invalid_argument("level missing");
       startlevel(string(argv[++i]));
     }
     else{
@@ -116,7 +116,6 @@ void Controller::play( int argc, char *argv[] ){
     cerr << e.what() << endl;
     return;
   }
-  //getInfo();
   cout << *td;
 
   while (cin >> input){
@@ -211,18 +210,24 @@ void Controller::execute(){
 void Controller::createBlock(){
   if (randomness == false){
     char next;
-    if (readfile >> next){
-    board->createNext(next);
-    board->createCurrent();
-    } else {
-      readfile.close();
-      randomness = true;
-      if (board->getLevel() == 0) throw (out_of_range("No more Blocks to create"));
-    }
+    try {
+      if (readfile >> next){
+        cerr << "next is " << next << endl;
+        try{
+          board->createNext(next);
+        } catch(invalid_argument e) { 
+          cerr << "Block_" << e.what() << " does not exist." << endl;
+        }
+        board->createCurrent();
+      } else {
+        readfile.close();
+        randomness = true;
+      }
+    } catch(ios::failure) {cerr << "end of scriptfile" << endl;}
   } else {
-  board->createCurrent();
-  board->createNext();
-  }
+      board->createCurrent();
+      board->createNext();    
+  } 
 }
 //===============================================================================
 
@@ -287,7 +292,17 @@ void Controller::counterclockwise(){
 }
 
 void Controller::levelUp(){
-  board->levelUp();
+  if (board->getLevel() == 0){
+cerr << "err1" << endl;
+   rrandom();
+cerr << "err2" << endl;
+   board->levelUp();
+   board->createNext();
+cerr << "err3" << endl;
+ } else board->levelUp();
+cerr << "err4" << endl;
+  
+cerr << "err5" << endl;
 }
 
 void Controller::levelDown(){
@@ -322,7 +337,15 @@ void Controller::z(){
   board->replaceCurrent('Z');
 }
 
-void Controller::rrandom(){}
+void Controller::rrandom(){
+//  vector<int> v = board->getCurrent()->getInfo(board->getCurrent()->getForm());
+// board->setBlock(v[0],v[1], v[2],v[3], v[4],v[5], v[6],v[7], nullptr);
+  readfile.close();
+  randomness = true;
+//  board->createNext();
+//  createBlock();
+
+}
 
 void Controller::noRandom(){
   string file;

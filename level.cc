@@ -1,7 +1,16 @@
 #include <memory>
 #include <cstdlib>
+#include <string>
 #include "level.h"
 #include "block.h"
+#include "block_i.h"
+#include "block_j.h"
+#include "block_l.h"
+#include "block_o.h"
+#include "block_s.h"
+#include "block_z.h"
+#include "block_t.h"
+#include "block_x.h"
 #include "board.h"
 using namespace std;
 
@@ -20,7 +29,7 @@ shared_ptr<Block> Level::createBlock( Board &b, int s, int stamp, char t ) {
 	if (t == 'L') return make_shared<Block_L>(b, s, stamp);
 	if (t == 'T') return make_shared<Block_T>(b, s, stamp);
 	if (t == 'X') return make_shared<Block_X>(b, s, stamp);
-	else return nullptr;
+	else throw invalid_argument{string{t}};
 }
 
 void Level::rotateCW( Block &b ) const { b.rotateCW(); }

@@ -23,9 +23,7 @@ void TextDisplay::notify( const Cell &c ) {
 }
 
 void TextDisplay::notify( const Block &b ) {
-cerr << "before drawing " << next << endl;
 	next = b.drawBlock();
-cerr << "after drawing" << endl;
 }
 
 void TextDisplay::notify( const Board &b ) {
