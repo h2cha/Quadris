@@ -111,7 +111,11 @@ void Controller::play( int argc, char *argv[] ){
   }
 
   board->setLevel(board->getLevel());
-  createBlock();
+  try { createBlock(); } 
+  catch (out_of_range e) {
+    cerr << e.what() << endl;
+    return;
+  }
   //getInfo();
   cout << *td;
 
@@ -213,6 +217,7 @@ void Controller::createBlock(){
     } else {
       readfile.close();
       randomness = true;
+      if (board->getLevel() == 0) throw (out_of_range("No more Blocks to create"));
     }
   } else {
   board->createCurrent();
