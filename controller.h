@@ -135,6 +135,9 @@ class Controller {
 
   // suggests a landing place for the current block.
   void hint();
+
+  // renames an existing function
+  void rename();
 };
 
 #endif

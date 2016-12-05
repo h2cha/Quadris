@@ -34,6 +34,7 @@ Controller::Controller()
   command sequence_ = &Controller::sequence;
   command restart_ = &Controller::restart;
   command hint_ = &Controller::hint;
+  command rename_ = &Controller::rename;
 
   // insert to cmdMap;
   cmdMap["levelup"] = levelUp_;
@@ -56,6 +57,7 @@ Controller::Controller()
   cmdMap["sequence"] = sequence_;
   cmdMap["restart"] = restart_;
   cmdMap["hint"] = hint_;
+  cmdMap["rename"] = rename_;
 };
 //===============================================================================
 
@@ -212,9 +214,10 @@ void Controller::createBlock(){
       readfile.close();
       randomness = true;
     }
-  }
+  } else {
   board->createCurrent();
   board->createNext();
+  }
 }
 //===============================================================================
 
@@ -340,3 +343,16 @@ void Controller::restart(){
 }
 
 void Controller::hint(){}
+
+
+void Controller::rename(){
+  string oldKey;
+  string newKey;
+  cin >> oldKey >> newKey;
+  map<string, command>::iterator it;
+  it = cmdMap.find(oldKey);
+  if (it != cmdMap.end()){
+    swap(cmdMap[newKey], it->second);
+    cmdMap.erase(it);
+  }
+}
