@@ -1,4 +1,3 @@
-#include <vector>
 #include "board.h"
 #include "cell.h"
 #include "level.h"
@@ -29,6 +28,11 @@ void Board::clearBoard() {
 	for(auto v : theBoard) {
 		for(auto c : v) c.setBlock(nullptr);
 	}
+}
+
+void Board::drawCurrent(vector<int> info) {
+	cerr << "came to draw" << endl;
+	setBlock(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], current);
 }
 
 void Board::drawCurrent( char type, shared_ptr<Block> b ) {
@@ -74,6 +78,10 @@ void Board::deleteARow( int r ) {
 
 
 // OPERATIONS
+/*vector<int> Board::getInfo(){
+	return current->getInfo();
+}//*/
+
 void Board::createCurrent() {
 	if (!theNext) current = level->createBlock(*this, level->getScore(), 0);
 	else current = theNext;
@@ -98,10 +106,49 @@ void Board::createNext( char type ) {
 
 
 void Board::replaceCurrent( char type ) {
-	setBlock(2,0,2,1,2,2,2,3, nullptr);
-	setBlock(3,0,3,1,3,2,3,3, nullptr);
+	vector<int> curInfo = current->getInfo();
+	vector<int> newInfo = current->getInfo(type);
+	cerr << "start" << endl;
+	for (int i = 0; i < curInfo.size(); i+=2){
+		for (int j = 0; j < newInfo.size(); j+=2){
+			if (curInfo[i] == newInfo[j] && curInfo[i+1] == newInfo[j+1]){
+				newInfo[j] = -1;
+				newInfo[j+1] = -1;
+			}
+		}
+	}
+
+	bool empty;
+
+	for (int i = 0; i < newInfo.size(); i+=2){
+		if (!(isEmpty(newInfo[i], newInfo[i+1]))){
+			cerr << "not empty" << endl;
+			cerr << newInfo[i] << " " << newInfo[i+1] << endl;
+			empty = false;
+		}
+	}
+
+	cerr << "current" << endl;
+	for (int i = 0; i < 8; i++){
+  		cerr << curInfo[i] << endl;
+  	}
+
+  	cerr << "new" << endl;
+	for (int i = 0; i < 8; i++){
+  		cerr << newInfo[i] << endl;
+  	}
+
+	cerr << empty << endl;
+	newInfo = current->getInfo(type);
+
+	if (empty){
+	setBlock(curInfo[0],curInfo[1],curInfo[2],curInfo[3],curInfo[4],curInfo[5],curInfo[6],curInfo[7], nullptr);
+	int row = current->getRow();
+	int col = current->getCol();
 	current = level->createBlock(*this, level->getScore(), 0, type);
-	drawCurrent(current->getType(), current);
+	current->setCoord(row, col);
+	drawCurrent(newInfo);
+	}	
 }
 
 void Board::moveRight() { level->moveRight(*current); }

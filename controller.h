@@ -1,3 +1,4 @@
+
 #ifndef _CONTROLLER_H_SSS
 #define _CONTROLLER_H_
 
@@ -41,7 +42,7 @@ class Controller {
   std::shared_ptr<TextDisplay> td;
   std::shared_ptr<GraphicsDisplay> gd;
   std::shared_ptr<Xwindow> win;
-  
+
   // stores the input.
   std::string input;
 
@@ -66,6 +67,8 @@ class Controller {
   // returns true Sif command is valid.
   // false otherwise. 
   void parseInput();
+
+  /*void getInfo();*/
 
   // checks if command given by string is valid.
   // when complete, command is valid if stored in cmdMap.

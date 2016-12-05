@@ -18,7 +18,8 @@ class Board {
   std::shared_ptr<Level> level;
 	std::shared_ptr<Block> current;
 	std::shared_ptr<Block> theNext;
-
+  
+  void drawCurrent(std::vector<int> info);
   void drawCurrent( char type, std::shared_ptr<Block> b );
   void popBlock();
   void deleteARow( int r );
@@ -47,6 +48,8 @@ class Board {
     void dropBlocks( int r );
     void setSeed(int s );
     void restart();
+
+    /*std::vector<int> getInfo();//*/
 
 
     // MUTATOR

@@ -2,6 +2,7 @@
 #define _BLOCK_H_
 #include <string>
 #include <memory>
+#include <vector>
 #include "window.h"
 
 
@@ -30,6 +31,9 @@ protected:
     void moveDown_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3);
     void drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3, int i);
     void drop_helper(int r, int c, int i, std::shared_ptr<Block> b );
+    std::vector<int> getInfo(char type) const;
+    int getRow() const;
+    int getCol() const;
     virtual void moveRight()=0;
     virtual void moveLeft()=0;
     virtual void moveDown()=0;
@@ -39,6 +43,7 @@ protected:
   	virtual char getType() const =0;
   	virtual std::string drawBlock() const =0;
     virtual void drawBlock( Xwindow &x ) const =0;
+    virtual std::vector<int> getInfo() const = 0;
     bool isValid(int r, int c) const;
     bool canOccupy(int r, int c, int r1, int c1, int r2=-1, int c2=-1, int r3=-1, int c3=-1) const;
 };
@@ -56,6 +61,7 @@ class Block_I: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 
@@ -74,6 +80,7 @@ class Block_J: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 
@@ -92,6 +99,7 @@ class Block_L: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 
@@ -111,6 +119,7 @@ class Block_O: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 
 };
 
@@ -129,6 +138,7 @@ class Block_S: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 
@@ -147,6 +157,7 @@ class Block_Z: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 
@@ -165,6 +176,7 @@ class Block_T: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 
@@ -183,6 +195,7 @@ class Block_X: public Block {
   	char getType() const override;
   	std::string drawBlock() const override;
     void drawBlock( Xwindow &x ) const override;
+    std::vector<int> getInfo() const override;
 };
 
 #endif

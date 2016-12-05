@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdexcept>
+#include <vector>
 #include "controller.h"
 using namespace std;
 
@@ -80,6 +81,7 @@ void Controller::play(){
 
   board->setLevel(board->getLevel());
   createBlock();
+  //getInfo();
   cout << *td;
 
   while (cin >> input){
@@ -90,6 +92,13 @@ void Controller::play(){
 }
 //===============================================================================
 
+/*void Controller::getInfo(){
+  vector<int> info = board->getInfo();
+  vector<int>::iterator it;
+  for (it = info.begin(); it != info.end(); it++){
+    cout << *it << endl;
+  }
+}*/
 
 //PARSEINPUT=====================================================================
 void Controller::parseInput(){

@@ -2,12 +2,19 @@
 #include "block.h"
 #include "board.h"
 #include "window.h"
-
 #include <iostream>
 
 using namespace std;
 
 int Block::getScore() const { return score;}
+
+int Block::getRow() const {
+	return row;
+}
+
+int Block::getCol() const{
+	return col;
+}
 
 bool Block::isValid( int r, int c ) const {
 	if (r == -1 && c == -1) return true;
@@ -20,6 +27,49 @@ bool Block::canOccupy(int r, int c, int r1, int c1, int r2, int c2, int r3, int 
 			&& board.isEmpty(r,c,r1,c1,r2,c2,r3,c3);
 }
 
+std::vector<int> Block::getInfo(char type) const{
+	vector<int> info;
+	if (type == 'I'){
+		for(const auto x : {row, col, row, col+1, row, col+2, row, col+3}){
+    		info.emplace_back(x);
+		}
+	} else if (type == 'J'){
+		for(const auto x : {row, col, row-1, col, row, col+1, row, col+2}){
+    		info.emplace_back(x);
+		}
+	} else if (type == 'L'){
+		for(const auto x : {row, col, row, col+1, row, col+2, row-1, col+2}){
+    		info.emplace_back(x);
+		}
+	} else if (type == 'O'){
+		for(const auto x : {row, col, row-1, col, row-1, col+1, row, col+1}){
+    		info.emplace_back(x);
+    }
+
+	} else if (type == 'T'){
+		for(const auto x : {row-1, col, row-1, col+1, row-1, col+2, row, col+1}){
+    		info.emplace_back(x);
+		}
+
+	} else if (type == 'S'){
+		for(const auto x : {row, col, row, col+1, row-1, col+1, row-1, col+2}){
+    		info.emplace_back(x);
+		}
+	} else if (type == 'Z'){
+		for(const auto x : {row-1, col, row-1, col+1, row, col+1, row, col+2}){
+    		info.emplace_back(x);
+		}
+  	} else {
+		for(const auto x : {row, col}){
+	    	info.emplace_back(x);
+	    }
+  	}
+  	cerr << "Returned " << type << endl;
+  	for (int i = 0; i < 8; i++){
+  		cerr << info[i] << endl;
+  	}
+  	return info;
+}
 
 Block::Block( Board& b, int s, int time ):
 	board{b}, score{s}, timeStamp{time} { }
@@ -85,6 +135,20 @@ Block_I::Block_I( Board& b, int s, int time ):
 Block_I::~Block_I() { }
 
 
+vector<int> Block_I::getInfo() const {
+	vector<int> info;
+	if (form == form1){
+		for(const auto x : {row, col, row, col+1, row, col+2, row, col+3}){
+    		info.emplace_back(x);
+		}
+	} else { 
+		for(const auto x : {row, col, row-1, col, row-2, col, row-3, col}){
+    		info.emplace_back(x);
+		}
+	}
+	return info;
+}
+
 void Block_I::moveRight(){
 	if (form == form1 && canOccupy(row,col+4, -1,-1)) 
 		moveRight_helper(row,col, row,col+1, row,col+2, row,col+3);
@@ -94,9 +158,9 @@ void Block_I::moveRight(){
 
 void Block_I::moveLeft(){
 	if (form == form1 && canOccupy(row,col-1, -1,-1)) 
-		moveRight_helper(row,col, row,col+1, row,col+2, row,col+3);
+		moveLeft_helper(row,col, row,col+1, row,col+2, row,col+3);
 	if (form == form2 && canOccupy(row,col-1, row-1,col-1, row-2,col-1, row-3,col-1)) 
-		moveRight_helper(row,col, row-1,col, row-2,col, row-3,col);
+		moveLeft_helper(row,col, row-1,col, row-2,col, row-3,col);
 }
 
 void Block_I::moveDown(){
@@ -152,6 +216,28 @@ Block_J::Block_J( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_J::~Block_J() { }
+
+vector<int> Block_J::getInfo() const {
+	vector<int> info;
+	if (form == form1){
+		for(const auto x : {row, col, row-1, col, row, col+1, row, col+2}){
+    		info.emplace_back(x);
+		}
+	} else if (form == form2) {
+		for(const auto x : {row, col, row-1, col, row-2, col, row-2, col+1}){
+    		info.emplace_back(x);
+		}
+	} else if (form == form3) {
+		for(const auto x : {row-1, col, row-1, col+1, row-1, col+2, row, col+2}){
+    		info.emplace_back(x);
+			}
+	} else {
+		for(const auto x : {row, col, row, col+1, row-1, col+1, row-2, col+1}){
+    		info.emplace_back(x);
+    	}
+    }
+	return info;
+}
 
 void Block_J::moveRight(){
 	if (form == form4 && canOccupy(row-2,col+2, row-1,col+2, row,col+2))
@@ -280,6 +366,29 @@ Block_L::Block_L( Board& b, int s, int time ):
 	Block(b, s, time) { }
 
 Block_L::~Block_L() { }
+
+
+vector<int> Block_L::getInfo() const {
+	vector<int> info;
+	if (form == form1){
+		for(const auto x : {row, col, row, col+1, row, col+2, row-1, col+2}){
+    		info.emplace_back(x);
+		}
+	} else if (form == form2) {
+		for(const auto x : {row, col, row-1, col, row-2, col, row, col+1}){
+    		info.emplace_back(x);
+		}
+	} else if (form == form3) {
+		for(const auto x : {row, col, row-1, col, row-1, col+1, row-1, col+2}){
+    		info.emplace_back(x);
+    	}
+	} else {
+		for(const auto x : {row-2, col, row-2, col+1, row-1, col+1, row, col+1}){
+    		info.emplace_back(x);
+    	}
+	}
+	return info;
+}
 
 
 void Block_L::moveRight(){
@@ -412,6 +521,15 @@ Block_O::Block_O( Board& b, int s, int time ):
 
 Block_O::~Block_O() { }
 
+vector<int> Block_O::getInfo() const {
+	vector<int> info;
+	for(const auto x : {row, col, row-1, col, row-1, col+1, row, col+1}){
+    	info.emplace_back(x);
+    }
+    return info;
+}
+
+
 void Block_O::moveRight(){
 	if (canOccupy(row,col+2, row-1,col+2))
 		moveRight_helper(row,col, row-1,col, row-1,col+1, row,col+1);
@@ -454,6 +572,19 @@ Block_S::Block_S( Board& b, int s, int time ):
 
 Block_S::~Block_S() { }
 
+vector<int> Block_S::getInfo() const {
+	vector<int> info;
+	if (form == form1){
+		for(const auto x : {row, col, row, col+1, row-1, col+1, row-1, col+2}){
+    		info.emplace_back(x);
+		}
+	} else {
+		for(const auto x : {row-1, col, row-2, col, row-1, col+1, row, col+1}){
+    		info.emplace_back(x);
+		}
+	}
+	return info;
+}
 
 void Block_S::moveRight(){
 	if (form == form1 && canOccupy(row-1,col+3, row, col+2)) 
@@ -523,6 +654,20 @@ Block_Z::Block_Z( Board& b, int s, int time ):
 
 Block_Z::~Block_Z() { }
 
+vector<int> Block_Z::getInfo() const {
+	vector<int> info;
+	if (form == form1){
+		for(const auto x : {row-1, col, row-1, col+1, row, col+1, row, col+2}){
+    		info.emplace_back(x);
+		}
+	} else {
+		for(const auto x : {row, col, row-1, col, row-1, col+1, row-2, col+1}){
+    		info.emplace_back(x);
+		}
+	}
+	return info;
+}
+
 void Block_Z::moveRight(){
 	if (form == form1 && canOccupy(row-1,col+2, row,col+3)) 
 		moveRight_helper(row-1,col, row-1,col+1, row,col+1, row,col+2);
@@ -591,7 +736,27 @@ Block_T::Block_T( Board& b, int s, int time ):
 
 Block_T::~Block_T() { }
 
-
+vector<int> Block_T::getInfo() const {
+	vector<int> info;
+	if (form == form1){
+		for(const auto x : {row-1, col, row-1, col+1, row-1, col+2, row, col+1}){
+    		info.emplace_back(x);
+		}
+	} else if (form == form2) {
+		for(const auto x : {row-1, col, row, col+1, row-1, col+1, row-2, col+1}){
+    		info.emplace_back(x);
+		}
+	} else if (form == form3) {
+		for(const auto x : {row, col, row, col+1, row, col+2, row-1, col+1}){
+    		info.emplace_back(x);
+    	}
+	} else {
+		for(const auto x : {row, col, row-1, col, row-2, col, row-1, col+1}){
+    		info.emplace_back(x);
+    	}
+	}
+	return info;
+}
 
 void Block_T::moveRight(){
 	if (form == form3 && canOccupy(row-1,col+2, row,col+3)) 
@@ -723,6 +888,15 @@ Block_X::Block_X( Board& b, int s, int time ):
 
 Block_X::~Block_X() { 
 }
+
+vector<int> Block_X::getInfo() const {
+	vector<int> info;
+	for(const auto x : {row, col}){
+    	info.emplace_back(x);
+    }
+    return info;
+}
+
 void Block_X::moveRight(){}
 
 void Block_X::moveLeft(){}
