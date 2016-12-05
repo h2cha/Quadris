@@ -12,29 +12,29 @@ GraphicsDisplay::GraphicsDisplay( Xwindow &x, int r, int c ):
 	int Rorig=6, Corig=100, dim=27;
 
 	int width=1;
-	window.fillRectangle(Corig, Rorig, dim*11+width, dim*18+width, Xwindow::Magenta);
+  window.fillRectangle(0,0,500,500,Xwindow::Black);
+	window.fillRectangle(Corig, Rorig, dim*11+width, dim*18+width, Xwindow::White);
   	for(int i=0; i<=col; i++){
     	int r = i*dim + Corig;
-    	window.fillRectangle(r, Rorig, width, dim*18, Xwindow::White);
+    	window.fillRectangle(r, Rorig, width, dim*18, Xwindow::Black);
   	}
   	for(int i=0; i<=row; i++){
     	int c = i*dim + Rorig;
-    	window.fillRectangle(Corig, c, dim*11+width, width, Xwindow::White);
+    	window.fillRectangle(Corig, c, dim*11+width, width, Xwindow::Black);
   	}
-  	//window.fillRectangle(Corig, 3*dim + Rorig-0.5 , dim*11+width, 2, Xwindow::White);
 
-    window.drawString(5,20,"Level:");
-    window.drawString(5,35,"Score:");
-    window.drawString(5,50,"HiScore:");
+    window.drawString(5,20,"Level:", Xwindow::White);
+    window.drawString(5,35,"Score:", Xwindow::White);
+    window.drawString(5,50,"HiScore:", Xwindow::White);
 
-    window.drawString(405,20,"Next Block:");
+    window.drawString(405,20,"Next Block:", Xwindow::White);
 
 }
 
 GraphicsDisplay::~GraphicsDisplay() { }
 
 void GraphicsDisplay::clearNext() {
-  window.fillRectangle(405,40,80,40,Xwindow::White);
+  window.fillRectangle(405,40,80,40,Xwindow::Black);
 }
 
 void GraphicsDisplay::notify( const Cell &c ) {
@@ -57,7 +57,7 @@ void GraphicsDisplay::notify( const Cell &c ) {
   if (c.getType() == 'X') 
     window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Black);
   if (c.getType() == ' ')
-    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::Magenta);
+    window.fillRectangle(Corig+j*dim+1, Rorig+i*dim+1, dim-1, dim-1, Xwindow::White);
 }
 
 void GraphicsDisplay::notify( const Block &b ) {
@@ -66,12 +66,12 @@ void GraphicsDisplay::notify( const Block &b ) {
 }
 
 void GraphicsDisplay::notify( const Board &b ) {
-  window.fillRectangle(60,20,40,30,Xwindow::White); // erase old data
+  window.fillRectangle(60,20,40,30,Xwindow::Black); // erase old data
   level = to_string(b.getLevel());
   score = to_string(b.getScore());
   hiScore = to_string(b.getHiScore());
-  window.drawString(60,20,level);
-  window.drawString(60,35,score);
-  window.drawString(60,50,hiScore);
+  window.drawString(60,20,level, Xwindow::White);
+  window.drawString(60,35,score, Xwindow::White);
+  window.drawString(60,50,hiScore, Xwindow::White);
 }
 

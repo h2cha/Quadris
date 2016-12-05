@@ -20,8 +20,11 @@ class Controller {
   // destructor of Controller
   ~Controller();
 
+  // interpret the command line interface
+  void cmdLine( int argc, char *argv[] );
+
   // starts the game
-  void play();
+  void play( int argc, char *argv[] );
  
   // runs the game in text-only mode.
   void textMode();

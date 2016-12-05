@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdexcept>
 #include <vector>
+#include <string>
 #include "controller.h"
 using namespace std;
 
@@ -64,11 +65,39 @@ Controller::~Controller(){
 };
 //===============================================================================
 
+void Controller::cmdLine( int argc, char *argv[] ) {
+  for (int i = 1; i < argc; i++){
+    if (string(argv[i]) == "-text"){
+      textMode();
+    }
+    else if (string(argv[i]) == "-seed"){
+      if (i+1 >= argc) throw invalid_argument("seed number missing");
+      setSeed(string(argv[++i]));
+    }
+    else if (string(argv[i]) == "-scriptfile"){
+      if (i+1 >= argc) throw invalid_argument("scriptfile missing");
+      scriptfile(string(argv[++i]));
+    }
+    else if (string(argv[i]) == "-startlevel"){
+      if (i+i >= argc) throw invalid_argument("level missing");
+      startlevel(string(argv[++i]));
+    }
+    else{
+      cerr << "Invalid Command" << endl;
+    }
+  }
+}
 
 //PLAY===========================================================================
-void Controller::play(){
+void Controller::play( int argc, char *argv[] ){
+  try{ cmdLine(argc, argv); }
+  catch(invalid_argument e) {
+    cerr << e.what() << endl;
+  }
   if (board->getLevel() == 0 && !(readfile.is_open())){
-    throw invalid_argument("Sequence file missing!");
+    cerr << "scriptfile not found" << endl;
+    return ;
+    //throw invalid_argument("Sequence file missing!");
   } 
   td = make_shared<TextDisplay>();
   board->attachView(td);
@@ -85,7 +114,9 @@ void Controller::play(){
   cout << *td;
 
   while (cin >> input){
-    parseInput();
+    try {
+      parseInput();
+    } catch(out_of_range) {}
     cout << *td;
   }
   cout << "Game Over" << endl;
@@ -141,7 +172,6 @@ bool Controller::checkCommand(){
   }
   // check if cmd is a shortcut - if there is only 1 corresponding func;
   if (correspondence == 1){
-    cout << correspondence << endl;
     input = cmd;
     return true;
   }
@@ -299,7 +329,8 @@ void Controller::sequence(){
       ifstream sequence(file);
       while(!sequence.eof()){
         sequence >> input;
-        parseInput();
+        try{parseInput();}
+        catch(out_of_range){}
       }
   }
 }

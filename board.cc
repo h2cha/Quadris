@@ -1,6 +1,7 @@
 #include "board.h"
 #include "cell.h"
 #include "level.h"
+#include <vector>
 using namespace std;
 
 #include <iostream>
@@ -31,7 +32,6 @@ void Board::clearBoard() {
 }
 
 void Board::drawCurrent(vector<int> info) {
-	cerr << "came to draw" << endl;
 	setBlock(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], current);
 }
 
@@ -55,21 +55,17 @@ void Board::setLevel( int l ) {
 }
 
 void Board::popBlock() {
+
 	int size = blocks.size();
 	for(int i=0; i < size; ++i) {
-		if (blocks[i].use_count() == 1) {
+		if (blocks[i].use_count() <= 1) {
 			addScore(blocks[i]->getScore());
 			blocks.erase(blocks.begin() +i);
+			--i;
+			size = blocks.size();
 		}
 	}
-/*	
-	for(auto b : blocks) {
-		if (b.use_count() == 1) {
-			addScore(b->getScore());
-			blocks.erase(b);
-		}
-	}
-*/}
+}
 
 void Board::deleteARow( int r ) {
 	for(int i=0; i < col; ++i) setBlock(r,i, nullptr);
@@ -78,9 +74,6 @@ void Board::deleteARow( int r ) {
 
 
 // OPERATIONS
-/*vector<int> Board::getInfo(){
-	return current->getInfo();
-}//*/
 
 void Board::createCurrent() {
 	if (!theNext) current = level->createBlock(*this, level->getScore(), 0);
@@ -106,11 +99,12 @@ void Board::createNext( char type ) {
 
 
 void Board::replaceCurrent( char type ) {
-	vector<int> curInfo = current->getInfo();
+	vector<int> curInfo = current->getInfo(current->getForm());
 	vector<int> newInfo = current->getInfo(type);
-	cerr << "start" << endl;
-	for (int i = 0; i < curInfo.size(); i+=2){
-		for (int j = 0; j < newInfo.size(); j+=2){
+	int curSize = curInfo.size();
+	int newSize = newInfo.size();
+	for (int i = 0; i < curSize; i+=2){
+		for (int j = 0; j < newSize; j+=2){
 			if (curInfo[i] == newInfo[j] && curInfo[i+1] == newInfo[j+1]){
 				newInfo[j] = -1;
 				newInfo[j+1] = -1;
@@ -118,37 +112,20 @@ void Board::replaceCurrent( char type ) {
 		}
 	}
 
-	bool empty;
-
-	for (int i = 0; i < newInfo.size(); i+=2){
-		if (!(isEmpty(newInfo[i], newInfo[i+1]))){
-			cerr << "not empty" << endl;
-			cerr << newInfo[i] << " " << newInfo[i+1] << endl;
-			empty = false;
+	for (int k = 0; k < newSize; k+=2){
+		if (!(isEmpty(newInfo[k], newInfo[k+1]))) {
+			return;
 		}
 	}
 
-	cerr << "current" << endl;
-	for (int i = 0; i < 8; i++){
-  		cerr << curInfo[i] << endl;
-  	}
-
-  	cerr << "new" << endl;
-	for (int i = 0; i < 8; i++){
-  		cerr << newInfo[i] << endl;
-  	}
-
-	cerr << empty << endl;
 	newInfo = current->getInfo(type);
 
-	if (empty){
 	setBlock(curInfo[0],curInfo[1],curInfo[2],curInfo[3],curInfo[4],curInfo[5],curInfo[6],curInfo[7], nullptr);
 	int row = current->getRow();
 	int col = current->getCol();
 	current = level->createBlock(*this, level->getScore(), 0, type);
 	current->setCoord(row, col);
-	drawCurrent(newInfo);
-	}	
+	drawCurrent(newInfo);	
 }
 
 void Board::moveRight() { level->moveRight(*current); }
@@ -162,7 +139,6 @@ void Board::rotateCW() { level->rotateCW(*current); }
 void Board::rotateCC() { level->rotateCC(*current); }
 
 void Board::drop() { 
-cout << level->getFallen() << "fallen" << endl;
 	level->drop(*current);
 	blocks.emplace_back(current); 
 }
@@ -190,7 +166,7 @@ void Board::levelDown() {
 
 int Board::deleteRows( int r ) {
 	int deleteRows = 0;
-	int score = level->getScore();
+	int score = level->getLevel();
 	for(int i=r; i > r-4; --i) {
 		if (isRowFilled(i)) {
 			deleteARow(i);
@@ -252,6 +228,14 @@ void Board::restart() {
 	score = 0;
 }
 
+void Board::getHint() {
+	for(int r=row-1; r >= 0; --r) {
+		for(int c=0; c < col; ++c) {
+
+		}
+	}
+}
+
 
 
 
@@ -276,6 +260,7 @@ bool Board::isEmpty( int r, int c ) const {
 bool Board::isEmpty( int r1, int c1, int r2, int c2, int r3, int c3, int r4, int c4 ) const {
 	return isEmpty(r1,c1) && isEmpty(r2,c2) && isEmpty(r3,c3) && isEmpty(r4,c4);
 }
+
 
 
 bool Board::isRowFilled(int r) {

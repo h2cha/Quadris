@@ -18,6 +18,7 @@ class Board {
   std::shared_ptr<Level> level;
 	std::shared_ptr<Block> current;
 	std::shared_ptr<Block> theNext;
+  std::shared_ptr<Block> hint;
   
   void drawCurrent(std::vector<int> info);
   void drawCurrent( char type, std::shared_ptr<Block> b );
@@ -48,7 +49,7 @@ class Board {
     void dropBlocks( int r );
     void setSeed(int s );
     void restart();
-
+    void getHint();
     /*std::vector<int> getInfo();//*/
 
 

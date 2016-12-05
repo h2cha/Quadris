@@ -12,9 +12,12 @@ int Block::getRow() const {
 	return row;
 }
 
+
 int Block::getCol() const{
 	return col;
 }
+
+int Block::getForm() const { return form; }
 
 bool Block::isValid( int r, int c ) const {
 	if (r == -1 && c == -1) return true;
@@ -64,15 +67,13 @@ std::vector<int> Block::getInfo(char type) const{
 	    	info.emplace_back(x);
 	    }
   	}
-  	cerr << "Returned " << type << endl;
-  	for (int i = 0; i < 8; i++){
-  		cerr << info[i] << endl;
-  	}
   	return info;
 }
 
 Block::Block( Board& b, int s, int time ):
-	board{b}, score{s}, timeStamp{time} { }
+	board{b}, score{s}, timeStamp{time} {
+	form = form1; 
+}
 
 Block::~Block() { }
 
@@ -100,8 +101,6 @@ void Block::moveDown_helper(int r, int c, int r1, int c1, int r2, int c2, int r3
 	board.setBlock(r,c, r1,c1, r2,c2, r3,c3, nullptr);
 	board.setBlock(r+1,c, r1+1,c1, r2+1,c2, r3+1,c3, board.getCurrent());
 	++row;
-	if (!canOccupy(row+1, c, row+1, c1, row+1, c2, row+1, c3)) dropped = true;
-	if (board.isRowFilled(row)) board.deleteRows(row);
 }
 
 void Block::drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, int c3, int i){
@@ -109,10 +108,12 @@ void Block::drop_helper(int r, int c, int r1, int c1, int r2, int c2, int r3, in
 	board.setBlock(r+i,c, r1+i,c1, r2+i,c2, r3+i,c3, board.getCurrent());
 	row += i;
 	dropped = true;
-	if (board.isRowFilled(row)) {
-		int rows = board.deleteRows(row);
-		for(int i=0; i<rows; ++i) board.dropBlocks(row);
-	} 
+	for(int i=0; i < 4; ++i) {
+		if (board.isRowFilled(row-i)) {
+			int rows = board.deleteRows(row-i);
+			for(int j=0; j<rows; ++j) board.dropBlocks(row-i);
+		} 
+	}	
 }
 
 void Block::drop_helper( int r, int c, int i, shared_ptr<Block> b ){
@@ -135,9 +136,9 @@ Block_I::Block_I( Board& b, int s, int time ):
 Block_I::~Block_I() { }
 
 
-vector<int> Block_I::getInfo() const {
+vector<int> Block_I::getInfo( int f ) const {
 	vector<int> info;
-	if (form == form1){
+	if (f == form1){
 		for(const auto x : {row, col, row, col+1, row, col+2, row, col+3}){
     		info.emplace_back(x);
 		}
@@ -164,7 +165,7 @@ void Block_I::moveLeft(){
 }
 
 void Block_I::moveDown(){
-	if (form == form1 && canOccupy(row+1,col, row+1,col+1, row+2,col+2, row+3,col+3)) 
+	if (form == form1 && canOccupy(row+1,col, row+1,col+1, row+1,col+2, row+1,col+3)) 
 		moveDown_helper(row,col, row,col+1, row,col+2, row,col+3);
 	if (form == form2 && canOccupy(row+1,col, -1, -1))
 		moveDown_helper(row,col, row-1,col, row-2,col, row-3,col);
@@ -217,17 +218,17 @@ Block_J::Block_J( Board& b, int s, int time ):
 
 Block_J::~Block_J() { }
 
-vector<int> Block_J::getInfo() const {
+vector<int> Block_J::getInfo( int f ) const {
 	vector<int> info;
-	if (form == form1){
+	if (f == form1){
 		for(const auto x : {row, col, row-1, col, row, col+1, row, col+2}){
     		info.emplace_back(x);
 		}
-	} else if (form == form2) {
+	} else if (f == form2) {
 		for(const auto x : {row, col, row-1, col, row-2, col, row-2, col+1}){
     		info.emplace_back(x);
 		}
-	} else if (form == form3) {
+	} else if (f == form3) {
 		for(const auto x : {row-1, col, row-1, col+1, row-1, col+2, row, col+2}){
     		info.emplace_back(x);
 			}
@@ -368,17 +369,17 @@ Block_L::Block_L( Board& b, int s, int time ):
 Block_L::~Block_L() { }
 
 
-vector<int> Block_L::getInfo() const {
+vector<int> Block_L::getInfo( int f ) const {
 	vector<int> info;
-	if (form == form1){
+	if (f == form1){
 		for(const auto x : {row, col, row, col+1, row, col+2, row-1, col+2}){
     		info.emplace_back(x);
 		}
-	} else if (form == form2) {
+	} else if (f == form2) {
 		for(const auto x : {row, col, row-1, col, row-2, col, row, col+1}){
     		info.emplace_back(x);
 		}
-	} else if (form == form3) {
+	} else if (f == form3) {
 		for(const auto x : {row, col, row-1, col, row-1, col+1, row-1, col+2}){
     		info.emplace_back(x);
     	}
@@ -521,7 +522,7 @@ Block_O::Block_O( Board& b, int s, int time ):
 
 Block_O::~Block_O() { }
 
-vector<int> Block_O::getInfo() const {
+vector<int> Block_O::getInfo( int f ) const {
 	vector<int> info;
 	for(const auto x : {row, col, row-1, col, row-1, col+1, row, col+1}){
     	info.emplace_back(x);
@@ -572,9 +573,9 @@ Block_S::Block_S( Board& b, int s, int time ):
 
 Block_S::~Block_S() { }
 
-vector<int> Block_S::getInfo() const {
+vector<int> Block_S::getInfo( int f ) const {
 	vector<int> info;
-	if (form == form1){
+	if (f == form1){
 		for(const auto x : {row, col, row, col+1, row-1, col+1, row-1, col+2}){
     		info.emplace_back(x);
 		}
@@ -654,9 +655,9 @@ Block_Z::Block_Z( Board& b, int s, int time ):
 
 Block_Z::~Block_Z() { }
 
-vector<int> Block_Z::getInfo() const {
+vector<int> Block_Z::getInfo( int f ) const {
 	vector<int> info;
-	if (form == form1){
+	if (f == form1){
 		for(const auto x : {row-1, col, row-1, col+1, row, col+1, row, col+2}){
     		info.emplace_back(x);
 		}
@@ -736,17 +737,17 @@ Block_T::Block_T( Board& b, int s, int time ):
 
 Block_T::~Block_T() { }
 
-vector<int> Block_T::getInfo() const {
+vector<int> Block_T::getInfo( int f ) const {
 	vector<int> info;
-	if (form == form1){
+	if (f == form1){
 		for(const auto x : {row-1, col, row-1, col+1, row-1, col+2, row, col+1}){
     		info.emplace_back(x);
 		}
-	} else if (form == form2) {
+	} else if (f == form2) {
 		for(const auto x : {row-1, col, row, col+1, row-1, col+1, row-2, col+1}){
     		info.emplace_back(x);
 		}
-	} else if (form == form3) {
+	} else if (f == form3) {
 		for(const auto x : {row, col, row, col+1, row, col+2, row-1, col+1}){
     		info.emplace_back(x);
     	}
@@ -889,7 +890,7 @@ Block_X::Block_X( Board& b, int s, int time ):
 Block_X::~Block_X() { 
 }
 
-vector<int> Block_X::getInfo() const {
+vector<int> Block_X::getInfo( int f ) const {
 	vector<int> info;
 	for(const auto x : {row, col}){
     	info.emplace_back(x);
@@ -918,3 +919,13 @@ char Block_X::getType() const { return 'X'; }
 string Block_X::drawBlock() const { return "X"; }
 
 void Block_X::drawBlock( Xwindow &x ) const {}
+
+
+Hint::Hint( Board &b, int s, int time, std::vector<int> info ):
+	Block(b,s,time), coords{info} { }
+
+Hint::~Hint() {}
+
+char Hint::getType() const { return '?'; }
+
+vector<int> Hint::getInfo( int f ) const { return coords; }
